@@ -67,9 +67,9 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-
     conn = get_db_connection()
-    user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+    user = conn.execute('SELECT * FROM users WHERE LOWER(username) = ?', (username,)).fetchone()
+    print(user)  # See if the users table contains data
     conn.close()
     if user:
         # Append the salt to the password and hash it
@@ -83,9 +83,9 @@ def login():
     return jsonify({"message": "Invalid username or password."}), 401
 
 @app.route('/admin', methods=['GET'])
-@role_required('admin')
 def admin_dashboard():
     return jsonify({"message": "Welcome to the Admin Dashboard!"})
+
 
 @app.route('/user/dashboard', methods=['GET'])
 def user_dashboard():
@@ -135,7 +135,7 @@ def create_test():
     if existing_test:
         conn.close()
         return jsonify({"message": "Test code already exists."}), 400
-    json_question = json.dumps(questions)
+    json_question = json.dump(questions)
     # Insert new test into database
     conn.execute('INSERT INTO tests (test_code, questions, timer, is_test_started) VALUES (?, ?, ?, ?)',
                  (test_code, json_question, timer, False))

@@ -10,12 +10,24 @@ const Login_admin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const questionData = {
-      testCode: testCode,  // Replace with your actual test code logic
-      timer: 60,  // Replace with your actual timer value or state
-      questions: questions  // Array of questions you've collected
-  }
+    // Send a POST request to log in
+    const response = await fetch("http://127.0.0.1:5000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
+    const data = await response.json();
+
+    if (response.ok) {
+      // Successful login, redirect to the dashboard or admin page
+      navigate("/admin"); // Adjust this path as needed
+    } else {
+      // Display error message
+      setError(data.error || "Login failed");
+    }
   };
 
   return (
@@ -65,21 +77,7 @@ const Login_admin = () => {
               Sign in
             </button>
           </form>
-          <div className="flex items-center my-4">
-            <span className="w-full h-px bg-gray-600"></span>
-            <span className="px-3 text-sm text-gray-400">Login with social accounts</span>
-            <span className="w-full h-px bg-gray-600"></span>
-          </div>
-          <div className="flex justify-center space-x-3">
-            {/* Social login buttons can go here */}
-          </div>
           {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
-          <p className="mt-4 text-center text-xs text-gray-400">
-            Don't have an account?{" "}
-            <a href="/register" className="text-gray-200 hover:underline">
-              Sign up
-            </a>
-          </p>
         </div>
       </div>
   );

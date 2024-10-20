@@ -340,7 +340,7 @@ const McqTest = () => {
                 </div>
               </div>
               <div className="bg-black absolute top-0 right-2 m-8 w-[25%] h-[40%] rounded shadow-md">
-                  hello
+                  <FaceOrientationChecker />
               </div>
               <div className="absolute flex flex-row justify-start items-center bottom-0 left-3 w-[70%] m-2  ">
                 <p className="text-5xl font-medium ">Timer:</p>

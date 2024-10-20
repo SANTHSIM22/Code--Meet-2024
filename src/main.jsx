@@ -6,6 +6,7 @@ import './index.css'
 import Admin from './components/admin.jsx'
 import Login_user from './components/login_user.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Register from "./components/Register.jsx";
 import TestPage from './components/admin_test.jsx'
 import Dashboard from './components/admin_dashboard.jsx'
 const router=createBrowserRouter([
@@ -22,14 +23,21 @@ const router=createBrowserRouter([
     element:<Login_user/>
   },
   {
-    path:"admin",
-  element: <Admin/>
-    
+    path:'Register',
+    element:<Register/>
   },
   {
-     path:"/test-page" ,element:<TestPage />
+    path:"admin",
+    element: <Admin/>
   },
-   {path:"dashboard",element: <Dashboard/>}
+  {
+    path:"/test-page",
+    element:<TestPage/>
+
+  }
+  ,{
+    path:"/dashboard", element:<Dashboard/>
+  }
 
 ])
 ReactDOM.createRoot(document.getElementById('root')).render(

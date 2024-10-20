@@ -19,8 +19,8 @@ const navbar = () => {
         name="path"
         id="dashboard"
       />
-      <div class="absolute opacity-0 -bottom-full rounded-md py-2 px-2 bg-black bg-opacity-70 left-1/2 -translate-x-1/2 group-hover:opacity-100 transition-opacity shadow-lg">
-    Download
+      <div class="absolute opacity-0 -left-full rounded-md py-2 px-2 bg-black bg-opacity-30  -translate-x-1/2 group-hover:opacity-100 transition-opacity shadow-lg">
+    Dashboard
   </div>
 
       <svg
@@ -42,6 +42,9 @@ const navbar = () => {
       class="has-[:checked]:shadow-lg relative w-full h-16 p-4 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-row gap-3 items-center justify-center text-black rounded-xl"
     >
       <input class="hidden peer/expand" type="radio" name="path" id="profile" />
+      <div class="absolute opacity-0 -left-full rounded-md py-2 px-2 bg-black bg-opacity-30  -translate-x-1/2 group-hover:opacity-100 transition-opacity shadow-lg">
+    Profile
+  </div>
       <svg
         class="peer-hover/expand:scale-125 peer-hover/expand:text-blue-400 peer-hover/expand:fill-blue-400 peer-checked/expand:text-blue-400 peer-checked/expand:fill-blue-400 text-2xl peer-checked/expand:scale-125 ease-in-out duration-300"
         xmlns="http://www.w3.org/2000/svg"
@@ -66,6 +69,9 @@ const navbar = () => {
         name="path"
         id="messages"
       />
+      <div class="absolute opacity-0 -left-full rounded-md py-2 px-2 bg-black bg-opacity-30  -translate-x-1/2 group-hover:opacity-100 transition-opacity shadow-lg">
+    Notifications
+  </div>
       <svg
         class="peer-hover/expand:scale-125 peer-hover/expand:text-blue-400 peer-hover/expand:fill-blue-400 peer-checked/expand:text-blue-400 peer-checked/expand:fill-blue-400 text-2xl peer-checked/expand:scale-125 ease-in-out duration-300"
         xmlns="http://www.w3.org/2000/svg"
@@ -88,6 +94,9 @@ const navbar = () => {
       class="has-[:checked]:shadow-lg relative w-full h-16 p-4 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-row gap-3 items-center justify-center text-black rounded-xl"
     >
       <input class="hidden peer/expand" type="radio" name="path" id="help" />
+      <div class="absolute opacity-0 -left-full rounded-md py-2 px-2 bg-black bg-opacity-30  -translate-x-1/2 group-hover:opacity-100 transition-opacity shadow-lg">
+    Alerts
+  </div>
       <svg
         class="peer-hover/expand:scale-125 peer-hover/expand:text-blue-400 peer-hover/expand:fill-blue-400 peer-checked/expand:text-blue-400 peer-checked/expand:fill-blue-400 text-2xl peer-checked/expand:scale-125 ease-in-out duration-300"
         xmlns="http://www.w3.org/2000/svg"
@@ -113,6 +122,9 @@ const navbar = () => {
         name="path"
         id="settings"
       />
+      <div class="absolute opacity-0 -left-full rounded-md py-2 px-2 bg-black bg-opacity-30  -translate-x-1/2 group-hover:opacity-100 transition-opacity shadow-lg">
+    Settings
+  </div>
       <svg
         class="peer-hover/expand:scale-125 peer-hover/expand:text-blue-400 peer-hover/expand:fill-blue-400 peer-checked/expand:text-blue-400 peer-checked/expand:fill-blue-400 text-2xl peer-checked/expand:scale-125 ease-in-out duration-300"
         xmlns="http://www.w3.org/2000/svg"

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const McqTest = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const mockData = {
     testCode: '123456',
     questions: [
@@ -21,7 +21,7 @@ const McqTest = () => {
     ],
   };
 
-  const [testCode, setTestCode] = useState(''); // User-entered test code
+  const [testCode, setTestCode] = useState('');
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -29,30 +29,70 @@ const McqTest = () => {
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [warningVisible, setWarningVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [countdown, setCountdown] = useState(10); // Countdown state
-  const warningTimeoutRef = useRef(null); // Store the timeout reference
-  const countdownIntervalRef = useRef(null); // Store the countdown interval reference
-  const isCountdownActiveRef = useRef(false); // Track if countdown is active
+  const [countdown, setCountdown] = useState(10);
+  const [remainingWarnings, setRemainingWarnings] = useState(4);
+  const countdownIntervalRef = useRef(null);
+  const isCountdownActiveRef = useRef(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
-    // Disable right-click (context menu)
     const handleRightClick = (event) => {
       event.preventDefault();
     };
 
-    document.addEventListener('contextmenu', handleRightClick);
+    const handleKeyDown = (event) => {
+      if (isFullscreen) {
+        const charCode = event.charCode || event.keyCode || event.which;
 
-    // Clean up the event listener on component unmount
+        // Check for the Escape key (27)
+        if (charCode === 27) {
+          alert('Escape key is not allowed');
+          event.preventDefault();
+        }
+
+        // Detect if the Windows key (meta key) is pressed
+        if (event.metaKey) {
+          // Decrease warning count when the Windows key is pressed
+          showWarning(); // Show the warning modal and decrement warnings
+          event.preventDefault();
+        }
+
+        // Prevent Ctrl + A / Command + A
+        if ((event.ctrlKey || event.metaKey) && (event.key === 'a' || event.key === 'i' || event.key === 'c' || event.key === 'u')) {
+          event.preventDefault();
+        }
+
+        // Prevent Alt + Tab and the Tab key
+        if (event.altKey && event.key === 'Tab') {
+          event.preventDefault();
+        }
+
+        // Prevent Ctrl + Tab (switching tabs)
+        if (event.ctrlKey && event.key === 'Tab') {
+          event.preventDefault();
+        }
+
+        // Prevent both Control and Alt keys
+        if (event.ctrlKey || event.altKey) {
+          event.preventDefault();
+        }
+      }
+    };
+
+    document.addEventListener('contextmenu', handleRightClick);
+    document.addEventListener('keydown', handleKeyDown);
+
     return () => {
       document.removeEventListener('contextmenu', handleRightClick);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [isFullscreen]);
 
   const fetchTest = () => {
     if (testCode === mockData.testCode) {
       setQuestions(mockData.questions);
       setIsTestStarted(true);
-      enterFullscreen(); // Enter fullscreen on valid code
+      enterFullscreen();
     } else {
       alert('The test code you entered is invalid. Please try again.');
       setQuestions([]);
@@ -60,52 +100,54 @@ const McqTest = () => {
   };
 
   const enterFullscreen = () => {
-    const elem = document.documentElement; // Get the document element to enter fullscreen
+    const elem = document.documentElement;
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { // Firefox
+    } else if (elem.mozRequestFullScreen) {
       elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+    } else if (elem.webkitRequestFullscreen) {
       elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { // IE/Edge
+    } else if (elem.msRequestFullscreen) {
       elem.msRequestFullscreen();
     }
-
-    // Reset and start the countdown
+    setIsFullscreen(true);
     resetCountdown();
-
-    // Add event listener for exit fullscreen
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('msfullscreenchange', handleFullscreenChange);
   };
 
   const handleFullscreenChange = () => {
-    if (!document.fullscreenElement) { // User is not in fullscreen
+    if (!document.fullscreenElement) {
       showWarning();
+      setIsFullscreen(false);
     } else {
-      resetCountdown(); // Reset the countdown when re-entering fullscreen
+      resetCountdown();
+      setIsFullscreen(true);
     }
   };
 
   const showWarning = () => {
-    setWarningVisible(true); // Show the warning
-    setModalVisible(true); // Show the modal
-    if (!isCountdownActiveRef.current) {
-      startCountdown(); // Start countdown timer only if not already active
+    if (remainingWarnings > 0) {
+      setWarningVisible(true);
+      setModalVisible(true);
+      setRemainingWarnings((prev) => prev - 1);
+
+      if (!isCountdownActiveRef.current) {
+        startCountdown();
+      }
+    } else {
+      handleSubmitTest(); // Auto-submit if warnings reach 0
     }
   };
 
   const startCountdown = () => {
-    setCountdown(10); // Reset countdown to 10 seconds
-    isCountdownActiveRef.current = true; // Set countdown as active
+    setCountdown(10);
+    isCountdownActiveRef.current = true;
     countdownIntervalRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(countdownIntervalRef.current);
-          isCountdownActiveRef.current = false; // Mark countdown as inactive
-          handleSubmitTest(); // Auto submit when countdown reaches 0
+          isCountdownActiveRef.current = false;
+          handleSubmitTest();
           return 0;
         }
         return prev - 1;
@@ -114,11 +156,11 @@ const McqTest = () => {
   };
 
   const resetCountdown = () => {
-    clearInterval(countdownIntervalRef.current); // Clear existing interval
-    setCountdown(10); // Reset countdown to 10 seconds
-    setWarningVisible(false); // Hide warning modal
-    setModalVisible(false); // Hide modal
-    isCountdownActiveRef.current = false; // Mark countdown as inactive
+    clearInterval(countdownIntervalRef.current);
+    setCountdown(10);
+    setWarningVisible(false);
+    setModalVisible(false);
+    isCountdownActiveRef.current = false;
   };
 
   const handleOptionChange = (index) => {
@@ -143,29 +185,25 @@ const McqTest = () => {
   };
 
   const handleSubmitTest = () => {
-    clearInterval(countdownIntervalRef.current); // Clear timer if submitting the test
+    clearInterval(countdownIntervalRef.current);
     console.log('Submitted Answers:', answers);
     alert('Test submitted successfully!');
-    exitFullscreen(); // Exit fullscreen after submitting
-    navigate('/user'); // Redirect to user page
+    exitFullscreen();
+    navigate('/user');
   };
 
   const exitFullscreen = () => {
     if (document.exitFullscreen) {
       document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) { // Firefox
+    } else if (document.mozCancelFullScreen) {
       document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+    } else if (document.webkitExitFullscreen) {
       document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { // IE/Edge
+    } else if (document.msExitFullscreen) {
       document.msExitFullscreen();
     }
 
-    // Remove event listener when exiting fullscreen
     document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.removeEventListener('msfullscreenchange', handleFullscreenChange);
   };
 
   const handleTestCodeChange = (e) => {
@@ -173,13 +211,17 @@ const McqTest = () => {
   };
 
   const handleModalClose = () => {
-    resetCountdown(); // Reset countdown when modal is closed
-    startCountdown(); // Start countdown again
-    enterFullscreen(); // Attempt to re-enter fullscreen
+    if (remainingWarnings === 0) {
+      handleSubmitTest();
+    } else {
+      resetCountdown();
+      startCountdown();
+      enterFullscreen();
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
+    <div className="min-h-screen flex user-select-none flex-col items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-4xl">
         {!isTestStarted ? (
           <>
@@ -238,51 +280,45 @@ const McqTest = () => {
                     </label>
                   </div>
                 ))}
-
                 <div className="flex justify-between mt-4">
                   <button
                     onClick={handlePrevQuestion}
-                    className={`p-2 bg-gray-300 rounded ${
-                      currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
+                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded"
                     disabled={currentQuestionIndex === 0}
                   >
                     Previous
                   </button>
-                  <div className="flex items-center">
-                    {currentQuestionIndex < questions.length - 1 && (
-                      <button
-                        onClick={handleNextQuestion}
-                        className="bg-blue-500 text-white p-2 rounded"
-                      >
-                        Next
-                      </button>
-                    )}
-                    {currentQuestionIndex === questions.length - 1 && (
-                      <button
-                        onClick={handleSubmitTest}
-                        className="bg-green-500 text-white p-2 rounded"
-                      >
-                        Submit Test
-                      </button>
-                    )}
-                  </div>
+                  <button
+                    onClick={
+                      currentQuestionIndex === questions.length - 1
+                        ? handleSubmitTest
+                        : handleNextQuestion
+                    }
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    {currentQuestionIndex === questions.length - 1 ? 'Submit Test' : 'Next'}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         )}
+
+        {/* Warning Modal */}
         {modalVisible && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded shadow-md">
-              <h2 className="text-xl font-bold mb-4">Warning</h2>
-              <p>Please return to fullscreen mode. You have {countdown} seconds left.</p>
-              <button
-                onClick={handleModalClose}
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-              >
-                Okay
-              </button>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-8 rounded shadow-lg w-1/2">
+              <h2 className="text-2xl font-bold mb-4">Warning</h2>
+              <p>
+                You've exited fullscreen mode. Please return to fullscreen to continue the test. You have{' '}
+                {remainingWarnings} warnings left. The test will be submitted in {countdown} seconds if you don't return
+                to fullscreen.
+              </p>
+              <div className="flex justify-end mt-4">
+                <button onClick={handleModalClose} className="bg-blue-500 text-white px-4 py-2 rounded">
+                  Return to Fullscreen
+                </button>
+              </div>
             </div>
           </div>
         )}

@@ -12,56 +12,85 @@ const McqTest = () => {
   const [isTestStarted, setIsTestStarted] = useState(false);
   const [warningVisible, setWarningVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [countdown, setCountdown] = useState(10);
+  const [countdown, setCountdown] = useState(6);
   const [remainingWarnings, setRemainingWarnings] = useState(4);
   const countdownIntervalRef = useRef(null);
   const isCountdownActiveRef = useRef(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        handleSubmitTest(); // Automatically submit the test if the document is hidden
+      }
+    };
+    
+
+    // Add event listener for visibility change
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []); //
+
+  useEffect(() => {
+    
     const handleRightClick = (event) => {
       event.preventDefault();
     };
-
     const handleKeyDown = (event) => {
       if (isFullscreen) {
         const charCode = event.charCode || event.keyCode || event.which;
-
+    
         // Check for the Escape key (27)
         if (charCode === 27) {
           alert('Escape key is not allowed');
           event.preventDefault();
         }
-
+    
+        if (event.ctrlKey && event.altKey) {
+          // Check if the Delete key (46) is pressed
+          if (event.key === 'Delete') {
+            // Trigger the test submission
+            handleSubmitTest();
+            event.preventDefault(); // Prevent the default action
+          } else {
+            // Optionally show a warning if only Control + Alt is pressed
+            showWarning(); // Show the warning modal
+            event.preventDefault();
+          }
+        }
         // Detect if the Windows key (meta key) is pressed
         if (event.metaKey) {
-          // Decrease warning count when the Windows key is pressed
           showWarning(); // Show the warning modal and decrement warnings
           event.preventDefault();
         }
-
+    
         // Prevent Ctrl + A / Command + A
-        if ((event.ctrlKey || event.metaKey) && (event.key === 'a' || event.key === 'i' || event.key === 'c' || event.key === 'u')) {
+        if ((event.ctrlKey || event.metaKey) && (event.key === 'a' || event.key === 'i' || event.key === 'c' || event.key === 'u' || event.key === 'T' || event.key === 'alt'  )) {
           event.preventDefault();
         }
-
-        // Prevent Alt + Tab and the Tab key
+    
+        // Check for Alt + Tab
         if (event.altKey && event.key === 'Tab') {
-          event.preventDefault();
-        }
+          alert('Switching to another application is not allowed!'); // Show alert
 
+        }
+    
         // Prevent Ctrl + Tab (switching tabs)
         if (event.ctrlKey && event.key === 'Tab') {
           event.preventDefault();
         }
-
+    
         // Prevent both Control and Alt keys
         if (event.ctrlKey || event.altKey) {
           event.preventDefault();
         }
       }
     };
-
+    
+    
     document.addEventListener('contextmenu', handleRightClick);
     document.addEventListener('keydown', handleKeyDown);
 
@@ -69,7 +98,9 @@ const McqTest = () => {
       document.removeEventListener('contextmenu', handleRightClick);
       document.removeEventListener('keydown', handleKeyDown);
     };
+    
   }, [isFullscreen]);
+
 
   const fetchTest = async () => {
     try {
@@ -124,8 +155,15 @@ const McqTest = () => {
     if (remainingWarnings > 0) {
       setWarningVisible(true);
       setModalVisible(true);
-      setRemainingWarnings((prev) => prev -1);
-
+      setRemainingWarnings((prev) => {
+        const newRemaining = prev - 1;
+        // Check if remaining warnings are 0 and submit test
+        if (newRemaining <= 0) {
+          handleSubmitTest(); // Auto-submit if warnings reach 0
+        }
+        return newRemaining;
+      });
+  
       if (!isCountdownActiveRef.current) {
         startCountdown();
       }
@@ -135,7 +173,7 @@ const McqTest = () => {
   };
 
   const startCountdown = () => {
-    setCountdown(10);
+    setCountdown(6);
     isCountdownActiveRef.current = true;
     countdownIntervalRef.current = setInterval(() => {
       setCountdown((prev) => {
@@ -213,6 +251,7 @@ const McqTest = () => {
       startCountdown();
       enterFullscreen();
     }
+    
   };
 
   return (

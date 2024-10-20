@@ -70,21 +70,23 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-left bg-white p-4">
-      <div className="flex flex-col w-screen h-screen justify-start items-start">
+    <div className="flex items-center h-screen justify-left font-Orbitron bg-white p-4 bg-profile " >
+    
+    <div className="flex flex-col min-h-screen w-full items-center justify-start mt-8 ">
         <Ut3/>
-        <label className='font-medium text-3xl font-Lex mb-2 mt-16 ml-8'>Saved Tests</label>
-        <table className='table-auto border border-zinc-500 w-11/12 bg-sky-100 font-Orbitron ml-8 '>
+       
+          <div className="w-full">
+        <table className='table-auto w-11/12 border border-zinc-500 bg-white font-Orbitron mt-8 '>
           <thead>
             <tr>
-              <th className='text-2xl border border-zinc-500 bg-zinc-300 hover:bg-zinc-400 p-2 '>Test Code</th>
-              <th className='text-2xl border border-zinc-500 bg-zinc-300 hover:bg-zinc-400 p-2 '>Actions</th>
+              <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>Test Code</th>
+              <th className='text-2xl border border-zinc-500 bg-black  text-white p-2'>Actions</th>
             </tr>
           </thead>
           <tbody>
             {tests.map((test, index) => (
               <tr key={index} className="font-medium text-center">
-                <td className="border border-zinc-500 hover:bg-sky-400  text-medium">
+                <td className="border border-zinc-500 hover:bg-sky-200  text-medium">
                   {test.test_code}
                 </td>
                 <td className="border border-zinc-500  flex justify-around items-center p-2">
@@ -124,8 +126,28 @@ const Dashboard = () => {
             ))}
           </tbody>
         </table>
+        </div><div className="w-full">
+        <table className='table-auto border border-zinc-500 w-11/12 bg-white font-Orbitron  mt-8'>
+        <tr>
+        <th className='text-2xl border border-zinc-500 bg-black text-white hover:bg-zinc-400 p-2 '>IP Address</th>
+        <th className='text-2xl border border-zinc-500 bg-black text-white hover:bg-zinc-400 p-2 '>Session Login</th>
+        </tr>
+        <tbody >
+          <td className="border border-zinc-500 hover:bg-sky-200 p-4  text-medium">
+          192.168.0.100
+
+          </td>
+          <td className="border border-zinc-500 hover:bg-sky-200 p-4   text-medium">
+          mySecretToken123
+
+          </td>
+          
+        </tbody>
+        </table>
+        </div>
       </div>
       <Navbar />
+      
     </div>
   );
 };

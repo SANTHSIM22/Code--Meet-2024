@@ -257,7 +257,7 @@ const McqTest = () => {
   };
 
   return (
-    <div className="min-h-screen flex user-select-none flex-col items-center justify-center bg-gray-50 p-4">
+    <div className="flex user-select-none flex-col items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-4xl">
         {!isTestStarted ? (
           <>
@@ -277,30 +277,17 @@ const McqTest = () => {
             </button>
           </>
         ) : (
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Test Code: {testCode}</h1>
-            <div className="flex w-full mt-4 space-x-4">
-              <div className="w-1/4 bg-white p-4 rounded shadow-md">
-                <h2 className="text-xl font-semibold mb-2">Navigate Questions</h2>
-                <div className="flex flex-wrap gap-2">
-                  {questions.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`px-3 py-1 border rounded ${
-                        index === currentQuestionIndex ? 'bg-blue-500 text-white' : 'bg-gray-300'
-                      }`}
-                      onClick={() => setCurrentQuestionIndex(index)}
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
-              <div className="flex-grow bg-white p-4 rounded shadow-md">
-                <h2 className="text-xl font-semibold mb-2">
+          <div>
+            <div className="flex w-full mt-4 space-x-4">
+              
+              <div className="flex-grow absolute left-0 w-[70%] m-8  h-[70%] bg-white p-4 rounded shadow-md">
+                <div className='flex justify-between items-center  '>
+                <h2 className="text-3xl font-semibold mb-2">
                   Question {currentQuestionIndex + 1}
                 </h2>
+                  <h1 className="text-xl font-bold text-gray-900 mb-4 text-right">Test Code: {testCode}</h1>
+                  </div>
                 <p className="mb-4">{questions[currentQuestionIndex]?.question}</p>
                 {questions[currentQuestionIndex]?.options.map((option, index) => (
                   <div key={index} className="mb-2">
@@ -336,6 +323,30 @@ const McqTest = () => {
                   </button>
                 </div>
               </div>
+              <div className=" absolute bottom-0 right-0 w-1/4 h-[50%] bg-white p-4 m-4 rounded shadow-md">
+                <h2 className="text-xl font-semibold mb-2">Navigate Questions</h2>
+                <div className="flex flex-wrap gap-2">
+                  {questions.map((_, index) => (
+                    <button
+                    key={index}
+                    className={`px-3 py-1 border rounded ${
+                      index === currentQuestionIndex ? 'bg-blue-500 text-white' : 'bg-gray-300'
+                    }`}
+                    onClick={() => setCurrentQuestionIndex(index)}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="bg-black absolute top-0 right-2 m-8 w-[25%] h-[40%] rounded shadow-md">
+                  hello
+              </div>
+              <div className="absolute flex flex-row justify-start items-center bottom-0 left-3 w-[70%] m-2  ">
+                <p className="text-5xl font-medium ">Timer:</p>
+                <h1 className="text-9xl">23</h1>
+                <div className=" text-3xl">Minutes</div>
+                </div>
             </div>
           </div>
         )}

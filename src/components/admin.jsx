@@ -1,9 +1,11 @@
 import React from 'react'
+import Navbar from './navbar'
 
 const Admin = () => {
   return (
     
     <>
+    <Navbar/>
 <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
   {/* Sidebar: Profile Section */}
   <aside className="w-full md:w-64 bg-white p-6 shadow-lg">

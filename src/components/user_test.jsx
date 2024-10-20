@@ -1,25 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import axios from "axios";
 const McqTest = () => {
   const navigate = useNavigate();
-  const mockData = {
-    testCode: '123456',
-    questions: [
-      {
-        question: 'What is the capital of France?',
-        options: ['Berlin', 'Madrid', 'Paris', 'Rome'],
-      },
-      {
-        question: 'Which planet is known as the Red Planet?',
-        options: ['Earth', 'Mars', 'Jupiter', 'Saturn'],
-      },
-      {
-        question: 'Who wrote "Hamlet"?',
-        options: ['Charles Dickens', 'J.K. Rowling', 'William Shakespeare', 'Leo Tolstoy'],
-      },
-    ],
-  };
 
   const [testCode, setTestCode] = useState('');
   const [questions, setQuestions] = useState([]);
@@ -88,14 +71,26 @@ const McqTest = () => {
     };
   }, [isFullscreen]);
 
-  const fetchTest = () => {
-    if (testCode === mockData.testCode) {
-      setQuestions(mockData.questions);
-      setIsTestStarted(true);
-      enterFullscreen();
-    } else {
-      alert('The test code you entered is invalid. Please try again.');
-      setQuestions([]);
+  const fetchTest = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/get-test-data/${testCode}`);  // Fetch data from Flask backend
+      const data = response.data;
+
+      console.log(data)
+      if (testCode == data.test_code) {
+        setQuestions(data.questions);
+        setIsTestStarted(true);
+        enterFullscreen(); // Enter fullscreen on valid code
+      }else if (!data.error) {
+        setQuestions(data.questions);
+        setIsTestStarted(true);
+        enterFullscreen();  // Enter fullscreen on valid code
+      } else {
+        alert('The test code you entered is invalid. Please try again.');
+        setQuestions([]);
+      }
+    } catch (error) {
+      console.error('Error fetching test data:', error);
     }
   };
 
@@ -129,7 +124,7 @@ const McqTest = () => {
     if (remainingWarnings > 0) {
       setWarningVisible(true);
       setModalVisible(true);
-      setRemainingWarnings((prev) => prev - 1);
+      setRemainingWarnings((prev) => prev -1);
 
       if (!isCountdownActiveRef.current) {
         startCountdown();
@@ -242,7 +237,7 @@ const McqTest = () => {
           </>
         ) : (
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Test Code: {mockData.testCode}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Test Code: {testCode}</h1>
             <div className="flex w-full mt-4 space-x-4">
               <div className="w-1/4 bg-white p-4 rounded shadow-md">
                 <h2 className="text-xl font-semibold mb-2">Navigate Questions</h2>

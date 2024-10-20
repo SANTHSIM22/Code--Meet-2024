@@ -8,7 +8,7 @@ const Docs = () => {
   return (
    <>
 
-   <div className="flex justify-between items-center bg-slate-100 h-auto p-2 drop-shadow-xl overscroll-contain">
+   <div className="flex justify-between items-center bg-slate-100 h-auto p-2 drop-shadow-xl overscroll-contain  ">
     <div className="flex justify-start items-center">
    <img className=" w-16 h-16 rounded-full m-4" alt="Logo" src={logo}>
           </img>
@@ -28,7 +28,7 @@ const Docs = () => {
    
 
       </div>
-   <div className="flex flex-col justify-center items-center  min-h-screen bg-slate-100 ">
+   <div className="flex flex-col justify-center items-center  min-h-screen bg-slate-100 bg-custom-pattern ">
    <img className=" w-24 h-24 rounded-full m-4" alt="Logo" src={logo}>
    </img>
     <h1 className="font-Zen text-7xl  hover:scale-125 mb-8 transition transition-linear duration-200 ">

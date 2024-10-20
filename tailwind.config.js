@@ -11,6 +11,9 @@ export default {
       OpenSans:['Open Sans','sans-serif'],
       Zen:['Zen Dots','sans-serif'] // Example for Google Font
     },
+    backgroundImage: {
+      'exam-bg': "url('https://getwallpapers.com/wallpaper/full/a/9/1/1400199-geometric-wallpapers-3840x2160-pc.jpg')"
+    },
   },
 },
   plugins: [],

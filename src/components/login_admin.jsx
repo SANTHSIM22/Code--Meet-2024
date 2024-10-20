@@ -31,8 +31,8 @@ const Login_admin = () => {
   };
 
   return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-200">
-        <div className="w-80 rounded-lg bg-gray-800 p-8">
+      <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-200 bg-custom-login-pattern">
+        <div className="w-80 rounded-lg bg-gray-950 p-8">
           <p className="text-center text-xl font-bold">Login</p>
           <form className="mt-6" onSubmit={handleSubmit}>
             <div className="mt-1 text-sm">

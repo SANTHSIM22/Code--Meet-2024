@@ -32,49 +32,53 @@ function Register() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-      <h1>Register</h1>
+    <div className = "flex justify-center items-center min-h-screen bg-gray-900 text-gray-200 bg-custom-login-pattern">
+      <div className = "flex flex-col justify-center items-center  bg-gray-950 p-8 rounded-lg">
+
+      
+      <h1 className="mb-8 font-medium text-2xl  dark:text-white">Register</h1>
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
+        <div className = "mb-2 ">
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
             required
-            style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
+            className="mb-4 w-80 p-2 rounded-lg text-slate-950 "
           />
         </div>
-        <div style={{ marginBottom: '15px' }}>
+        <div className="mb-2">
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
-            style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
+            className="mb-4 w-80 p-2 rounded-lg text-slate-950"
           />
         </div>
-        <div style={{ marginBottom: '15px' }}>
+        <div className="mb-0">
           <label htmlFor="role">Select Role:</label>
           <select
             id="role"
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            style={{ width: '100%', padding: '8px' }}
+            className="w-full rounded-lg p-2 text-slate-950"
           >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
+            <option value="user" className='text-slate-950'>User</option>
+            <option value="admin"className="text-slate-950">Admin</option>
           </select>
         </div>
         <button
           type="submit"
-          style={{ width: '100%', padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px' }}
+         className="mt-8 w-full rounded-md bg-green-500 py-2 text-gray-900 font-semibold hover:bg-green-600"
         >
           Register
         </button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
+    </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import React from 'react';
+import { React, useEffect } from 'react';
 import Navbar from './navbar';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
 
 const User = () => {
   // Initialize the navigation hook
@@ -13,7 +13,13 @@ const User = () => {
     // Redirect to the test page (replace '/user_test' with the correct route)
     navigate('/user_test');
   };
-
+  const location = useLocation();
+  const username = location.state?.username;
+  useEffect(() => {
+    if (!username) {
+      navigate("/login_user"); // Redirect to login page
+    }
+  }, [username, navigate]);
   return (
     <>
       <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
@@ -25,7 +31,7 @@ const User = () => {
               src="https://cdn.britannica.com/93/215393-050-E428CADE/Canadian-actor-musician-Ryan-Gosling-2016.jpg"
               alt="Profile"
             />
-            <h2 className="text-xl font-bold text-gray-800">John Doe</h2>
+            <h2 className="text-xl font-bold text-gray-800">{username}</h2>
             <p className="text-sm text-gray-500">Student</p>
           </div>
           <nav className="mt-8 space-y-4 w-full">

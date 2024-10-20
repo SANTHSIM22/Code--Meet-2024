@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from "axios";
-const McqTest = () => {
-  const navigate = useNavigate();
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import axios from 'axios';
 
-  const [testCode, setTestCode] = useState('');
+
+const McqTest = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+  
+  const [testCode, setTestCode] = useState(''); // User-entered test code
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);

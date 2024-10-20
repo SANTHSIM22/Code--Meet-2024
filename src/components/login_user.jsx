@@ -25,7 +25,7 @@ const Login_user = () => {
         // Handle successful login (e.g., redirect)
         console.log(data.message);
         // Redirect using the URL provided in the response
-        navigate(data.redirect);
+        navigate(data.redirect, { state: { username } });
       } else {
         setError(data.message);
       }

@@ -22,8 +22,8 @@ const Login_admin = () => {
     const data = await response.json();
 
     if (response.ok) {
+      navigate("/admin", { state: { username } });
       // Successful login, redirect to the dashboard or admin page
-      navigate("/admin"); // Adjust this path as needed
     } else {
       // Display error message
       setError(data.error || "Login failed");

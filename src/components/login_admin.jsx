@@ -23,7 +23,7 @@ const Login_admin = () => {
 
     if (response.ok) {
       // Successful login, redirect to the dashboard or admin page
-      navigate("/admin-dashboard"); // Adjust this path as needed
+      navigate("/admin"); // Adjust this path as needed
     } else {
       // Display error message
       setError(data.error || "Login failed");

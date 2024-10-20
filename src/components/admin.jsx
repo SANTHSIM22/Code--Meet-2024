@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from './navbar';
-import { useNavigate } from 'react-router-dom';  // Import the hook
+import { useNavigate } from 'react-router-dom'; 
+import logo from '../assets/logoexam.jpg'
+import Ut2 from "../components/underline2"
 
 const Admin = () => {
   // State to control modal visibility
@@ -29,10 +31,14 @@ const Admin = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+      <div className="min-h-screen flex flex-col md:flex-row bg-slate-100">
+          <img className=" w-16 h-16 rounded-full m-2" alt="Logo" src={logo}>
+          </img>
+          <h1 className="font-Zen font-medium text-end mt-6 text-2xl  ">eProctor</h1>
+          
         <div className='flex-1 flex flex-col items-center justify-center'>
         {/* Sidebar: Profile Section */}
-        <aside className="w-[500px] h-full absolute left-0 bg-white p-6 shadow-lg flex flex-col justify-center items-center">
+        <aside className="w-[500px] h-full absolute left-0 b p-6 shadow-2xl flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center ">
             <img
               className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
@@ -43,10 +49,10 @@ const Admin = () => {
             <p className="text-sm text-gray-500">Student</p>
           </div>
           <nav className="mt-8 space-y-4 w-full">
-            <button className="w-full px-4 py-3 bg-blue-50 text-blue-700 font-medium rounded-lg hover:bg-blue-100 transition duration-300">
+            <button className="w-full px-4 py-3 bg-blue-100 text-blue-700 font-medium rounded-lg hover:bg-blue-200 transition duration-300">
               View Profile
             </button>
-            <button className="w-full px-4 py-3 bg-red-50 text-red-600 font-medium rounded-lg hover:bg-red-100 transition duration-300">
+            <button className="w-full px-4 py-3 bg-red-100 text-red-600 font-medium rounded-lg hover:bg-red-200 transition duration-300">
               Log Out
             </button>
           </nav>
@@ -54,11 +60,9 @@ const Admin = () => {
         </div>
 
         {/* Main Section: Start Test Button */}
-        <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6">
-          <h1 className="text-4xl font-bold text-gray-900 tracking-wide">
-            Welcome to the Exam Portal
-          </h1>
-          <p className="text-gray-600 text-lg text-center max-w-md">
+        <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6 mr-16 bg-https://media.istockphoto.com/id/1160720443/vector/abstract-simple-geometric-vector-seamless-pattern-with-gold-line-texture-on-white-background.jpg?s=612x612&w=0&k=20&c=_kgBISj1Wio4LTRdBFN3IttmunACCl1-T5VKdurvb68= bg-cover">
+          <Ut2/>
+          <p className="text-gray-600 text-lg text-center max-w-md font-Mont">
             Click below to start your exam. Please ensure you have a stable connection and adhere to the exam guidelines.
           </p>
           <button

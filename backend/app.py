@@ -78,9 +78,85 @@ def login():
         if bcrypt.checkpw(salted_password, user['password']):
             # Generate a token with the user's info, including their role
             token = generate_token(username, user['role'])  # Implement your token generation logic here
-            return jsonify({"message": "Login successful!", "redirect": "/user/dashboard", "token": token}), 200
+            return jsonify({"message": "Login successful!", "redirect": "/user", "token": token}), 200
 
     return jsonify({"message": "Invalid username or password."}), 401
+
+
+@app.route('/get-all-tests', methods=['GET'])
+def get_all_tests():
+    conn = get_db_connection()
+    
+    # Fetch all tests
+    tests_query = '''
+        SELECT test_code, is_test_started
+        FROM tests
+    '''
+    tests = conn.execute(tests_query).fetchall()
+    conn.close()
+    
+    # Convert tests to a list of dictionaries
+    tests_data = []
+    for test in tests:
+        tests_data.append({
+            'test_code': test['test_code'],
+            'is_test_started': test['is_test_started']
+        })
+    
+    return jsonify(tests_data), 200
+
+@app.route('/start-test', methods=['POST'])
+def start_test():
+    data = request.get_json()
+    test_code = data.get('testCode')
+    
+    conn = get_db_connection()
+    conn.execute('UPDATE tests SET is_test_started = ? WHERE test_code = ?', (True, test_code))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Test started successfully."}), 200
+
+@app.route('/end-test', methods=['POST'])
+def end_test():
+    data = request.get_json()
+    test_code = data.get('testCode')
+    
+    conn = get_db_connection()
+    conn.execute('UPDATE tests SET is_test_started = ? WHERE test_code = ?', (False, test_code))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Test ended successfully."}), 200
+
+
+@app.route('/get-test-data/<test_code>', methods=['GET'])
+def get_test_data(test_code):
+    conn = get_db_connection()
+
+    # Query the test based on test_code
+    test_query = '''
+        SELECT test_code, questions, timer, is_test_started
+        FROM tests
+        WHERE test_code = ?
+    '''
+    test = conn.execute(test_query, (test_code,)).fetchone()
+    conn.close()
+    if test:
+        # Parse the questions JSON string to a Python list
+        questions = json.loads(test['questions'])
+
+        # Prepare and return the response as JSON
+        test_data = {
+            'test_code': test['test_code'],
+            'questions': questions,  # This will now be a list of question dictionaries
+            'timer': test['timer'],
+            'is_test_started': test['is_test_started']
+        }
+        return jsonify(test_data)
+    else:
+        return jsonify({'error': 'Test not found'}), 404
+
 
 @app.route('/admin', methods=['GET'])
 def admin_dashboard():

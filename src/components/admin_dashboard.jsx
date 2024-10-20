@@ -1,67 +1,120 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Navbar from './navbar';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const questions = location.state?.questions || []; // Get questions from state
-  const testCode = location.state?.testCode; // Get test code from state
+  const [tests, setTests] = useState([]); // State to hold fetched tests
 
-  const handleAddQuestion = () => {
-    navigate('/test', { state: { testCode } }); // Navigate to the TestPage with test code
+  // Fetch tests on component mount
+  useEffect(() => {
+    axios.get('http://localhost:5000/get-all-tests')
+      .then(response => {
+        setTests(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the tests!", error);
+      });
+  }, []);
+
+  const handleStartTest = (testCode) => {
+    axios.post('http://localhost:5000/start-test', { testCode })
+      .then(response => {
+        console.log("Test Started");
+        alert("Test Started!");
+        // Optionally, refresh tests after starting
+        fetchTests();
+      })
+      .catch(error => {
+        console.error("Error starting the test", error);
+      });
   };
 
-  const handleStartTest = () => {
-    // Logic to start the test
-    console.log("Test Started");
-    alert("Test Started!");
+  const handleEndTest = (testCode) => {
+    axios.post('http://localhost:5000/end-test', { testCode })
+      .then(response => {
+        console.log("Test Ended");
+        alert("Test Ended!");
+        // Optionally, refresh tests after ending
+        fetchTests();
+      })
+      .catch(error => {
+        console.error("Error ending the test", error);
+      });
   };
 
-  const handleEndTest = () => {
-    // Logic to end the test
-    console.log("Test Ended");
-    alert("Test Ended!");
+  const handleResetTest = (testCode) => {
+    axios.post('http://localhost:5000/reset-test', { testCode })
+      .then(response => {
+        console.log("Test Reset");
+        alert("Test Reset!");
+        // Optionally, refresh tests after resetting
+        fetchTests();
+      })
+      .catch(error => {
+        console.error("Error resetting the test", error);
+      });
   };
 
-  const handleResetTest = () => {
-    // Logic to reset the test
-    console.log("Test Reset");
-    alert("Test Reset!");
+  const fetchTests = () => {
+    axios.get('http://localhost:5000/get-all-tests')
+      .then(response => {
+        setTests(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the tests!", error);
+      });
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">Dashboard</h1>
-      <div className="bg-white p-4 rounded shadow-md w-full max-w-3xl">
-        <h2 className="text-xl font-semibold mb-2">Test Code: {testCode}</h2>
-        <p className="text-gray-600">Test has been created!.</p>
-        <div className="mt-4 flex justify-between">
-          <button
-            onClick={handleAddQuestion}
-            className="bg-blue-500 text-white p-2 rounded"
-          >
-            Change Questions
-          </button>
-          <button
-            onClick={handleStartTest}
-            className="bg-green-500 text-white p-2 rounded"
-          >
-            Start Test
-          </button>
-          <button
-            onClick={handleEndTest}
-            className="bg-red-500 text-white p-2 rounded"
-          >
-            End Test
-          </button>
-          <button
-            onClick={handleResetTest}
-            className="bg-yellow-500 text-white p-2 rounded"
-          >
-            Reset Test
-          </button>
-        </div>
+    <div className="flex min-h-screen items-center justify-left bg-white p-4">
+      <div className="flex flex-col w-screen h-screen justify-start items-start">
+        <h1 className="text-3xl font-bold h-36 text-gray-900 mb-4">Dashboard</h1>
+        <label className='font-medium text-xl'>Saved Tests</label>
+        <table className='table-auto border border-slate-400 w-11/12 bg-slate-200'>
+          <thead>
+            <tr>
+              <th className='text-2xl border border-slate-400 bg-slate-500'>Test No.</th>
+              <th className='text-2xl border border-slate-400 bg-slate-500'>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tests.map((test, index) => (
+              <tr key={index} className="font-medium text-center">
+                <td className="border border-slate-400 bg-slate-500">
+                  {test.test_code}
+                </td>
+                <td className="border border-slate-400">
+                  {!test.is_test_started ? (
+                    <button
+                      onClick={() => handleStartTest(test.test_code)}
+                      className="bg-green-500 text-white p-2 w-40 rounded hover:bg-green-700"
+                    >
+                      Start Test
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleEndTest(test.test_code)}
+                      className="bg-red-500 text-white p-2 w-40 rounded hover:bg-red-700"
+                    >
+                      End Test
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleResetTest(test.test_code)}
+                    className="bg-yellow-400 text-white w-40 p-2 rounded hover:bg-yellow-700 ml-2"
+                  >
+                    Reset Test
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+      <Navbar />
     </div>
   );
 };

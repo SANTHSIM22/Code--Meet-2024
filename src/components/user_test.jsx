@@ -1,203 +1,363 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import axios from 'axios';
+
 
 const McqTest = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const testCode = location.state?.testCode;
-
+  const navigate = useNavigate(); // Initialize useNavigate
+  
+  const [testCode, setTestCode] = useState(''); // User-entered test code
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState('');
-  const [options, setOptions] = useState(['', '', '', '']);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [answers, setAnswers] = useState({});
+  const [isTestStarted, setIsTestStarted] = useState(false);
+  const [warningVisible, setWarningVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [countdown, setCountdown] = useState(6);
+  const [remainingWarnings, setRemainingWarnings] = useState(4);
+  const countdownIntervalRef = useRef(null);
+  const isCountdownActiveRef = useRef(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const updateQuestion = () => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[currentQuestionIndex] = {
-      question: currentQuestion,
-      options,
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        //handleSubmitTest(); // Automatically submit the test if the document is hidden
+      }
     };
-    setQuestions(updatedQuestions);
+    
+
+    // Add event listener for visibility change
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []); //
+
+  useEffect(() => {
+    
+    const handleRightClick = (event) => {
+      event.preventDefault();
+    };
+    const handleKeyDown = (event) => {
+      if (isFullscreen) {
+        const charCode = event.charCode || event.keyCode || event.which;
+    
+        // Check for the Escape key (27)
+        if (charCode === 27) {
+          alert('Escape key is not allowed');
+          event.preventDefault();
+        }
+    
+        if (event.ctrlKey && event.altKey) {
+          // Check if the Delete key (46) is pressed
+          if (event.key === 'Delete') {
+            // Trigger the test submission
+            handleSubmitTest();
+            event.preventDefault(); // Prevent the default action
+          } else {
+            // Optionally show a warning if only Control + Alt is pressed
+            showWarning(); // Show the warning modal
+            event.preventDefault();
+          }
+        }
+        // Detect if the Windows key (meta key) is pressed
+        if (event.metaKey) {
+          showWarning(); // Show the warning modal and decrement warnings
+          event.preventDefault();
+        }
+    
+        // Prevent Ctrl + A / Command + A
+        if ((event.ctrlKey || event.metaKey) && (event.key === 'a' || event.key === 'i' || event.key === 'c' || event.key === 'u' || event.key === 'T' || event.key === 'alt'  )) {
+          event.preventDefault();
+        }
+    
+        // Check for Alt + Tab
+        if (event.altKey && event.key === 'Tab') {
+          alert('Switching to another application is not allowed!'); // Show alert
+
+        }
+    
+        // Prevent Ctrl + Tab (switching tabs)
+        if (event.ctrlKey && event.key === 'Tab') {
+          event.preventDefault();
+        }
+    
+        // Prevent both Control and Alt keys
+        if (event.ctrlKey || event.altKey) {
+          event.preventDefault();
+        }
+      }
+    };
+    
+    
+    document.addEventListener('contextmenu', handleRightClick);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleRightClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+    
+  }, [isFullscreen]);
+
+
+  const fetchTest = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/get-test-data/${testCode}`);  // Fetch data from Flask backend
+      const data = response.data;
+
+      console.log(data)
+      if (testCode == data.test_code) {
+        setQuestions(data.questions);
+        setIsTestStarted(true);
+        enterFullscreen(); // Enter fullscreen on valid code
+      }else if (!data.error) {
+        setQuestions(data.questions);
+        setIsTestStarted(true);
+        enterFullscreen();  // Enter fullscreen on valid code
+      } else {
+        alert('The test code you entered is invalid. Please try again.');
+        setQuestions([]);
+      }
+    } catch (error) {
+      console.error('Error fetching test data:', error);
+    }
   };
 
-  const handleAddOrNextQuestion = () => {
-    updateQuestion();
-
-    if (currentQuestionIndex === questions.length) {
-      setQuestions([...questions, { question: currentQuestion, options }]);
+  const enterFullscreen = () => {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
     }
+    setIsFullscreen(true);
+    resetCountdown();
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+  };
 
-    setCurrentQuestion('');
-    setOptions(['', '', '', '']);
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
+  const handleFullscreenChange = () => {
+    if (!document.fullscreenElement) {
+      showWarning();
+      setIsFullscreen(false);
+    } else {
+      resetCountdown();
+      setIsFullscreen(true);
+    }
+  };
+
+  const showWarning = () => {
+    if (remainingWarnings > 0) {
+      setWarningVisible(true);
+      setModalVisible(true);
+      setRemainingWarnings((prev) => {
+        const newRemaining = prev - 1;
+        // Check if remaining warnings are 0 and submit test
+        if (newRemaining <= 0) {
+          handleSubmitTest(); // Auto-submit if warnings reach 0
+        }
+        return newRemaining;
+      });
+  
+      if (!isCountdownActiveRef.current) {
+        startCountdown();
+      }
+    } else {
+      handleSubmitTest(); // Auto-submit if warnings reach 0
+    }
+  };
+
+  const startCountdown = () => {
+    setCountdown(6);
+    isCountdownActiveRef.current = true;
+    countdownIntervalRef.current = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(countdownIntervalRef.current);
+          isCountdownActiveRef.current = false;
+          handleSubmitTest();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const resetCountdown = () => {
+    clearInterval(countdownIntervalRef.current);
+    setCountdown(10);
+    setWarningVisible(false);
+    setModalVisible(false);
+    isCountdownActiveRef.current = false;
+  };
+
+  const handleOptionChange = (index) => {
+    setSelectedOption(index);
+  };
+
+  const handleNextQuestion = () => {
+    setAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [currentQuestionIndex]: selectedOption,
+    }));
+    setSelectedOption(null);
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
   const handlePrevQuestion = () => {
     if (currentQuestionIndex > 0) {
-      const previousQuestion = questions[currentQuestionIndex - 1];
-      setCurrentQuestion(previousQuestion?.question || '');
-      setOptions(previousQuestion?.options || ['', '', '', '']);
+      const previousAnswer = answers[currentQuestionIndex - 1];
+      setSelectedOption(previousAnswer || null);
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
 
-  const handleOptionChange = (index, value) => {
-    const newOptions = [...options];
-    newOptions[index] = value;
-    setOptions(newOptions);
+  const handleSubmitTest = () => {
+    clearInterval(countdownIntervalRef.current);
+    console.log('Submitted Answers:', answers);
+    alert('Test submitted successfully!');
+    exitFullscreen();
+    navigate('/user');
   };
 
-  const handleQuestionClick = (index) => {
-    const selectedQuestion = questions[index];
-    setCurrentQuestion(selectedQuestion?.question || '');
-    setOptions(selectedQuestion?.options || ['', '', '', '']);
-    setCurrentQuestionIndex(index);
+  const exitFullscreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
   };
 
-
-  const handleSubmit = async () => {
-    updateQuestion();  // Ensure the current question is updated in the array
-
-    const questionData = {
-        testCode: testCode,  // Replace with your actual test code logic
-        timer: 60,  // Replace with your actual timer value or state
-        questions: questions  // Array of questions you've collected
-    };
-
-    try {
-        // Make the POST request to your Flask backend
-        const response = await fetch('http://127.0.0.1:5000/create-test', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',  // Specify content type as JSON
-            },
-            body: JSON.stringify(questionData)  // Convert the questionData object to JSON
-        
-        });
-
-        // Check if the request was successful
-        if (response.ok) {
-            const result = await response.json();  // Get the result from the backend
-            console.log("Submitted Questions: ", result);
-            alert("Test Submitted Successfully!");
-
-            // Redirect to the Dashboard component
-            navigate('/dashboard', { state: { testCode: questionData.testCode } });
-        } else {
-            throw new Error('Failed to submit questions');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('There was an error submitting the questions. Please try again.');
-    }
+  const handleTestCodeChange = (e) => {
+    setTestCode(e.target.value);
   };
 
-  const handleRemoveQuestion = (index) => {
-    const updatedQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(updatedQuestions);
-    // Adjust the current question index if needed
-    if (currentQuestionIndex >= updatedQuestions.length) {
-      setCurrentQuestionIndex(updatedQuestions.length - 1);
+  const handleModalClose = () => {
+    if (remainingWarnings === 0) {
+      handleSubmitTest();
+    } else {
+      resetCountdown();
+      startCountdown();
+      enterFullscreen();
     }
-    // If the removed question was the current one, reset the inputs
-    if (currentQuestionIndex === index) {
-      const newCurrent = updatedQuestions[currentQuestionIndex - 1];
-      setCurrentQuestion(newCurrent?.question || '');
-      setOptions(newCurrent?.options || ['', '', '', '']);
-    }
+    
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">
-        Test Code: {testCode}
-      </h1>
-
-      {/* Main container with flex row layout */}
-      <div className="flex w-full max-w-6xl">
-        {/* Buttons to navigate between questions */}
-        <div className="w-1/4 bg-white p-4 rounded shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Navigate Questions</h2>
-          <div className="flex flex-wrap gap-2">
-            {questions.map((_, index) => (
-              <button
-                key={index}
-                className={`px-3 py-1 border rounded ${
-                  index === currentQuestionIndex ? 'bg-blue-500 text-white' : 'bg-gray-300'
-                }`}
-                onClick={() => handleQuestionClick(index)}
-              >
-                {index + 1}
-              </button>
-            ))}
-            {/* Add button for current question */}
-            <button
-              className={`px-3 py-1 border rounded ${
-                currentQuestionIndex === questions.length ? 'bg-blue-500 text-white' : 'bg-gray-300'
-              }`}
-              onClick={() => handleQuestionClick(questions.length)}
-            >
-              {questions.length + 1}
-            </button>
-          </div>
-        </div>
-
-        {/* Question form section on the right */}
-        <div className="w-3/4 ml-4 bg-white p-4 rounded shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Question {currentQuestionIndex + 1}</h2>
-          <input
-            type="text"
-            value={currentQuestion}
-            onChange={(e) => setCurrentQuestion(e.target.value)}
-            placeholder="Enter your question"
-            className="w-full mb-4 p-2 border rounded"
-          />
-          {options.map((option, index) => (
+    <div className="min-h-screen flex user-select-none flex-col items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-4xl">
+        {!isTestStarted ? (
+          <>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Enter Test Code</h1>
             <input
-              key={index}
               type="text"
-              value={option}
-              onChange={(e) => handleOptionChange(index, e.target.value)}
-              placeholder={`Option ${index + 1}`}
-              className="w-full mb-2 p-2 border rounded"
+              placeholder="Enter Test Code"
+              value={testCode}
+              onChange={handleTestCodeChange}
+              className="w-full max-w-xs p-2 border rounded mb-4"
             />
-          ))}
-          <div className="flex justify-between mt-4">
             <button
-              onClick={handlePrevQuestion}
-              className={`p-2 bg-gray-300 rounded ${
-                currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              disabled={currentQuestionIndex === 0}
+              onClick={fetchTest}
+              className="bg-blue-500 text-white px-4 py-2 rounded"
             >
-              Previous
+              Submit Code
             </button>
-            <div className="flex items-center">
-              {questions.length > 0 && (
-                <button
-                  onClick={() => handleRemoveQuestion(currentQuestionIndex)}
-                  className="bg-red-500 text-white p-2 rounded mr-2"
-                >
-                  Remove Question
-                </button>
-              )}
-              <button
-                onClick={handleAddOrNextQuestion}
-                className="bg-blue-500 text-white p-2 rounded mr-2"
-              >
-                {currentQuestionIndex === questions.length ? 'Add Question' : 'Next'}
-              </button>
-              {questions.length > 0 && (
-                <button
-                  onClick={handleSubmit}
-                  className="bg-green-500 text-white p-2 rounded"
-                >
-                  Submit Test
-                </button>
-              )}
+          </>
+        ) : (
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Test Code: {testCode}</h1>
+            <div className="flex w-full mt-4 space-x-4">
+              <div className="w-1/4 bg-white p-4 rounded shadow-md">
+                <h2 className="text-xl font-semibold mb-2">Navigate Questions</h2>
+                <div className="flex flex-wrap gap-2">
+                  {questions.map((_, index) => (
+                    <button
+                      key={index}
+                      className={`px-3 py-1 border rounded ${
+                        index === currentQuestionIndex ? 'bg-blue-500 text-white' : 'bg-gray-300'
+                      }`}
+                      onClick={() => setCurrentQuestionIndex(index)}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex-grow bg-white p-4 rounded shadow-md">
+                <h2 className="text-xl font-semibold mb-2">
+                  Question {currentQuestionIndex + 1}
+                </h2>
+                <p className="mb-4">{questions[currentQuestionIndex]?.question}</p>
+                {questions[currentQuestionIndex]?.options.map((option, index) => (
+                  <div key={index} className="mb-2">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name={`question-${currentQuestionIndex}`}
+                        checked={selectedOption === index}
+                        onChange={() => handleOptionChange(index)}
+                        className="mr-2"
+                      />
+                      {option}
+                    </label>
+                  </div>
+                ))}
+                <div className="flex justify-between mt-4">
+                  <button
+                    onClick={handlePrevQuestion}
+                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded"
+                    disabled={currentQuestionIndex === 0}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={
+                      currentQuestionIndex === questions.length - 1
+                        ? handleSubmitTest
+                        : handleNextQuestion
+                    }
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    {currentQuestionIndex === questions.length - 1 ? 'Submit Test' : 'Next'}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* Warning Modal */}
+        {modalVisible && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-8 rounded shadow-lg w-1/2">
+              <h2 className="text-2xl font-bold mb-4">Warning</h2>
+              <p>
+                You've exited fullscreen mode. Please return to fullscreen to continue the test. You have{' '}
+                {remainingWarnings} warnings left. The test will be submitted in {countdown} seconds if you don't return
+                to fullscreen.
+              </p>
+              <div className="flex justify-end mt-4">
+                <button onClick={handleModalClose} className="bg-blue-500 text-white px-4 py-2 rounded">
+                  Return to Fullscreen
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

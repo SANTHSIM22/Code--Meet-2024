@@ -1,6 +1,8 @@
 import { React, useEffect } from 'react';
 import Navbar from './navbar';
 import { useLocation, useNavigate } from "react-router-dom";
+import logo from '../assets/logoexam.jpg'
+import Ut2 from "./underline2"
 
 const User = () => {
   // Initialize the navigation hook
@@ -25,7 +27,12 @@ const User = () => {
       <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
         {/* Sidebar: Profile Section */}
         <aside className="w-full md:w-64 bg-white p-6 shadow-lg">
-          <div className="flex flex-col justify-center items-center ">
+            <div className="flex justify-center items-center">
+            <img className=" w-16 h-16 rounded-full m-2" alt="Logo" src={logo}>
+          </img>
+          <h1 className="font-Zen font-medium text-end text-2xl  ">eProctor</h1>
+            </div>
+          <div className="flex flex-col justify-center items-center mt-8 ">
             <img
               className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
               src="https://cdn.britannica.com/93/215393-050-E428CADE/Canadian-actor-musician-Ryan-Gosling-2016.jpg"
@@ -46,10 +53,8 @@ const User = () => {
 
         {/* Main Section: Start Test Button */}
         <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6">
-          <h1 className="text-4xl font-bold text-gray-900 tracking-wide">
-            Welcome to the Exam Portal
-          </h1>
-          <p className="text-gray-600 text-lg text-center max-w-md">
+          <Ut2/>
+          <p className="text-gray-600 text-lg text-center max-w-md font-Mont">
             Click on the button below to start the exam. Please ensure you have a stable connection and adhere to the exam guidelines.
           </p>
           <button

@@ -4,6 +4,7 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from functools import wraps
+import json
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS
@@ -14,9 +15,11 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# User model creation if it doesn't exist
-def create_users_table():
+# User and Test table creation if they don't exist
+def create_tables():
     conn = get_db_connection()
+    
+    # Users table
     conn.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,9 +29,22 @@ def create_users_table():
             role TEXT NOT NULL
         )
     ''')
+    
+    # Tests table
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS tests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            test_code TEXT UNIQUE NOT NULL,
+            questions TEXT NOT NULL,
+            timer INTEGER NOT NULL,
+            is_test_started BOOLEAN NOT NULL
+        )
+    ''')
+    
     conn.commit()
     conn.close()
 
+# Role-based access control decorator
 def role_required(role):
     """Decorator to check user role."""
     def decorator(f):
@@ -66,7 +82,7 @@ def login():
 
     return jsonify({"message": "Invalid username or password."}), 401
 
-@app.route('/admin/dashboard', methods=['GET'])
+@app.route('/admin', methods=['GET'])
 @role_required('admin')
 def admin_dashboard():
     return jsonify({"message": "Welcome to the Admin Dashboard!"})
@@ -105,6 +121,52 @@ def register():
 
     return jsonify({"message": "User registered successfully."}), 201
 
+# Create a test
+@app.route('/create-test', methods=['POST'])
+def create_test():
+    data = request.get_json()
+    test_code = data.get('testCode')
+    questions = data.get('questions')
+    timer = data.get('timer')
+
+    conn = get_db_connection()
+    # Check if test code already exists
+    existing_test = conn.execute('SELECT * FROM tests WHERE test_code = ?', (test_code,)).fetchone()
+    if existing_test:
+        conn.close()
+        return jsonify({"message": "Test code already exists."}), 400
+    json_question = json.dumps(questions)
+    # Insert new test into database
+    conn.execute('INSERT INTO tests (test_code, questions, timer, is_test_started) VALUES (?, ?, ?, ?)',
+                 (test_code, json_question, timer, False))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Test created successfully."}), 201
+
+# Reset test (update questions and timer)
+@app.route('/reset-test', methods=['POST'])
+@role_required('admin')  # Only admin can reset tests
+def reset_test():
+    data = request.get_json()
+    test_code = data.get('testCode')
+    new_questions = data.get('questions')
+    new_timer = data.get('timer')
+
+    conn = get_db_connection()
+    test = conn.execute('SELECT * FROM tests WHERE test_code = ?', (test_code,)).fetchone()
+
+    if not test:
+        conn.close()
+        return jsonify({"message": "Test not found."}), 404
+
+    conn.execute('UPDATE tests SET questions = ?, timer = ?, is_test_started = ? WHERE test_code = ?',
+                 (new_questions, new_timer, False, test_code))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Test reset successfully."}), 200
+
 def generate_token(username, role):
     # Implement token generation logic (e.g., JWT)
     return f"Bearer {username}-token"
@@ -115,5 +177,5 @@ def decode_token(token):
     return {'username': username, 'role': 'admin' if username == 'admin' else 'user'}
 
 if __name__ == '__main__':
-    create_users_table()  # Ensure the database exists
+    create_tables()  # Ensure the database and tables exist
     app.run(debug=True)

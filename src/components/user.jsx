@@ -24,9 +24,9 @@ const User = () => {
   }, [username, navigate]);
   return (
     <>
-      <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+      <div className="min-h-screen flex flex-col md:flex-row ">
         {/* Sidebar: Profile Section */}
-        <aside className="w-full md:w-64 bg-white p-6 shadow-lg">
+        <aside className="w-full md:w-64 bg-transparent p-6 shadow-lg">
             <div className="flex justify-center items-center">
             <img className=" w-16 h-16 rounded-full m-2" alt="Logo" src={logo}>
           </img>

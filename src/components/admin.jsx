@@ -49,9 +49,7 @@ const Admin = () => {
             <p className="text-sm text-gray-500">Student</p>
           </div>
           <nav className="mt-8 space-y-4 w-full">
-            <button className="w-full px-4 py-3 bg-blue-100 text-blue-700 font-medium rounded-lg hover:bg-blue-200 transition duration-300">
-              View Profile
-            </button>
+            
             <button className="w-full px-4 py-3 bg-red-100 text-red-600 font-medium rounded-lg hover:bg-red-200 transition duration-300">
               Log Out
             </button>

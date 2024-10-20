@@ -1,13 +1,25 @@
 import sqlite3
 import bcrypt
 import os
+import json
+import cv2
+import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from functools import wraps
-import json
+from PIL import Image
+import io
 
 app = Flask(__name__ )
 CORS(app)  # Enable CORS
+print(cv2.__version__)
+# Load the Haar cascade for face detection
+# Specify the path to the Haar cascade manually
+HAAR_CASCADE_PATH = 'haarcascade_frontalface_default.xml'  # Update this path
+face_cascade = cv2.CascadeClassifier(HAAR_CASCADE_PATH)
+
+# Define threshold for head turn detection
+TURN_THRESHOLD = 40  # Change this based on your requirements
 
 # Function to create a connection to the database
 def get_db_connection():
@@ -81,6 +93,46 @@ def login():
             return jsonify({"message": "Login successful!", "redirect": "/user", "token": token}), 200
 
     return jsonify({"message": "Invalid username or password."}), 401
+
+def analyze_head_orientation(face_rect, image_shape):
+    # Get the face rectangle
+    x, y, w, h = face_rect
+
+    # Calculate the center of the face
+    face_center_x = x + w // 2
+    face_center_y = y + h // 2
+
+    # Determine if the face is within the threshold of the center of the frame
+    frame_center_x = image_shape[1] // 2
+    distance_from_center = abs(face_center_x - frame_center_x)
+
+    if distance_from_center > TURN_THRESHOLD:
+        return "Face Turned Away"
+    else:
+        return "Facing Camera"
+
+# Route for receiving video frames and analyzing face orientation
+@app.route('/face-orientation', methods=['POST'])
+def face_orientation():
+    if 'frame' not in request.files:
+        return jsonify({"error": "No frame provided"}), 400
+
+    # Get the frame (image) from the request
+    frame_file = request.files['frame']
+    frame = np.array(Image.open(io.BytesIO(frame_file.read())))
+
+    # Convert the image to grayscale
+    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Detect faces in the image
+    faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5)
+
+    orientation_status = "No Face Detected"
+    if len(faces) > 0:
+        for face_rect in faces:
+            orientation_status = analyze_head_orientation(face_rect, frame.shape)
+
+    return jsonify({"status": orientation_status})
 
 
 @app.route('/get-all-tests', methods=['GET'])

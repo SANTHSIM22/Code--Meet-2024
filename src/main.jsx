@@ -11,6 +11,8 @@ import TestPage from './components/admin_test.jsx'
 import Dashboard from './components/admin_dashboard.jsx'
 import User from "./components/user.jsx"
 import UserTest from "./components/user_test.jsx"
+import Video from './components/video.jsx'
+
 const router=createBrowserRouter([
   {
     path:'/',
@@ -47,6 +49,10 @@ const router=createBrowserRouter([
   }
   ,{
     path:"/dashboard", element:<Dashboard/>
+  },
+  {
+    path:"/video",
+    element:<Video/>
   }
 
 ])

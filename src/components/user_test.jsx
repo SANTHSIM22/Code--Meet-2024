@@ -257,7 +257,7 @@ const McqTest = () => {
   };
 
   return (
-    <div className="flex user-select-none flex-col items-center justify-center bg-gray-50 p-4">
+    <div className="flex user-select-none flex-col items-center justify-center bg-profile p-4">
       <div className="w-full max-w-4xl">
         {!isTestStarted ? (
           <>
@@ -281,29 +281,31 @@ const McqTest = () => {
           <div>
             <div className="flex w-full mt-4 space-x-4">
               
-              <div className="flex-grow absolute left-0 w-[70%] m-8  h-[70%] bg-white p-4 rounded shadow-md">
+              <div className="flex-grow absolute left-0 w-[70%] m-8  h-[70%] bg-gray-100 rounded-sm p-4  shadow-xl">
                 <div className='flex justify-between items-center  '>
-                <h2 className="text-3xl font-semibold mb-2">
+                <h2 className="text-5xl font-semibold mb-9 font-Orbitron">
                   Question {currentQuestionIndex + 1}
                 </h2>
-                  <h1 className="text-xl font-bold text-gray-900 mb-4 text-right">Test Code: {testCode}</h1>
+                  <h1 className="text-2xl font-bold text-gray-900 mb-4 text-right font-Orbitron">Test Code: {testCode}</h1>
                   </div>
-                <p className="mb-4">{questions[currentQuestionIndex]?.question}</p>
+                <p className="mb-9 text-3xl  font-lex ml-10">{questions[currentQuestionIndex]?.question}</p>
                 {questions[currentQuestionIndex]?.options.map((option, index) => (
-                  <div key={index} className="mb-2">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name={`question-${currentQuestionIndex}`}
-                        checked={selectedOption === index}
-                        onChange={() => handleOptionChange(index)}
-                        className="mr-2"
-                      />
-                      {option}
-                    </label>
-                  </div>
+        <div key={index} className="mb-2 text-2xl ml-10">
+        <label className="flex items-center font-lex  cursor-pointer">
+          <input
+            type="radio"
+            name={`question-${currentQuestionIndex}`}
+            checked={selectedOption === index}
+            onChange={() => handleOptionChange(index)}
+            className="hidden peer"
+          />
+          <span className="w-4 h-4 rounded-full border border-gray-400 peer-checked:bg-blue-500 peer-checked:border-blue-500 transition-all"></span>
+          <span className="ml-3 text-gray-800">{option}</span>
+        </label>
+      </div>
+      
                 ))}
-                <div className="flex justify-between mt-4">
+                <div className="flex justify-between mt-10 font-Orbitron">
                   <button
                     onClick={handlePrevQuestion}
                     className="bg-gray-300 text-gray-800 px-4 py-2 rounded"
@@ -323,7 +325,7 @@ const McqTest = () => {
                   </button>
                 </div>
               </div>
-              <div className=" absolute bottom-0 right-0 w-1/4 h-[50%] bg-white p-4 m-4 rounded shadow-md">
+              <div className=" absolute bottom-0 right-3 w-[25%] h-[45%] bg-gray-100 p-4 m-4 rounded-md shadow-md">
                 <h2 className="text-xl font-semibold mb-2">Navigate Questions</h2>
                 <div className="flex flex-wrap gap-2">
                   {questions.map((_, index) => (
@@ -340,7 +342,7 @@ const McqTest = () => {
                 </div>
               </div>
               <div className="bg-black absolute top-0 right-2 m-8 w-[25%] h-[40%] rounded shadow-md">
-                  hello
+                  <FaceOrientationChecker />
               </div>
               <div className="absolute flex flex-row justify-start items-center bottom-0 left-3 w-[70%] m-2  ">
                 <p className="text-5xl font-medium ">Timer:</p>

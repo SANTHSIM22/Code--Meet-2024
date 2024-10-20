@@ -1,70 +1,105 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import Navbar from './navbar';
+import { useNavigate } from 'react-router-dom';  // Import the hook
 
-const Dashboard = () => {
-  const location = useLocation();
+const Admin = () => {
+  // State to control modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [testCode, setTestCode] = useState('');
+  
+  // Initialize the navigation hook
   const navigate = useNavigate();
-  const questions = location.state?.questions || []; // Get questions from state
-  const testCode = location.state?.testCode || 'No Code Provided'; // Get test code from state
 
-  const handleAddQuestion = () => {
-    navigate('/test'); // Navigate to the TestPage to add questions
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleTestCodeChange = (e) => {
+    setTestCode(e.target.value);
   };
 
-  const handleStartTest = () => {
-    // Logic to start the test
-    console.log("Test Started");
-  };
-
-  const handleEndTest = () => {
-    // Logic to end the test
-    console.log("Test Ended");
-  };
-
-  const handleResetTest = () => {
-    // Logic to reset the test
-    console.log("Test Reset");
+  const startTest = () => {
+    // Handle starting the test logic
+    console.log('Test Started with Code:', testCode);
+    
+    // Redirect to the test page (replace '/test-page' with the correct route)
+    navigate('/test-page', { state: { testCode } });
+    
+    closeModal();
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">Dashboard</h1>
-      <div className="bg-white p-4 rounded shadow-md w-full max-w-3xl">
-        <h2 className="text-xl font-semibold mb-2">Test Code: {testCode}</h2>
-        {questions.length === 0 ? (
-          <p className="text-gray-600">No Questions Added</p>
-        ) : (
-          <p className="text-gray-600">Questions have been added.</p>
-        )}
-        <div className="mt-4 flex justify-between">
+    <>
+      <Navbar />
+      <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+        {/* Sidebar: Profile Section */}
+        <aside className="w-full md:w-64 bg-white p-6 shadow-lg">
+          <div className="flex flex-col items-center">
+            <img
+              className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
+              src="https://via.placeholder.com/150"
+              alt="Profile"
+            />
+            <h2 className="text-xl font-bold text-gray-800">John Doe</h2>
+            <p className="text-sm text-gray-500">Student</p>
+          </div>
+          <nav className="mt-8 space-y-4 w-full">
+            <button className="w-full px-4 py-3 bg-blue-50 text-blue-700 font-medium rounded-lg hover:bg-blue-100 transition duration-300">
+              View Profile
+            </button>
+            <button className="w-full px-4 py-3 bg-red-50 text-red-600 font-medium rounded-lg hover:bg-red-100 transition duration-300">
+              Log Out
+            </button>
+          </nav>
+        </aside>
+
+        {/* Main Section: Start Test Button */}
+        <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6">
+          <h1 className="text-4xl font-bold text-gray-900 tracking-wide">
+            Welcome to the Exam Portal
+          </h1>
+          <p className="text-gray-600 text-lg text-center max-w-md">
+            Click below to start your exam. Please ensure you have a stable connection and adhere to the exam guidelines.
+          </p>
           <button
-            onClick={handleAddQuestion}
-            className="bg-blue-500 text-white p-2 rounded"
+            className="px-10 py-4 bg-blue-600 text-white font-semibold text-lg rounded-full shadow-md hover:bg-blue-700 transition duration-300"
+            onClick={openModal}
           >
-            Change Questions
+            Create test
           </button>
-          <button
-            onClick={handleStartTest}
-            className="bg-green-500 text-white p-2 rounded"
-          >
-            Start Test
-          </button>
-          <button
-            onClick={handleEndTest}
-            className="bg-red-500 text-white p-2 rounded"
-          >
-            End Test
-          </button>
-          <button
-            onClick={handleResetTest}
-            className="bg-yellow-500 text-white p-2 rounded"
-          >
-            Reset Test
-          </button>
-        </div>
+        </main>
       </div>
-    </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+            <h2 className="text-xl font-bold mb-4">Create Test</h2>
+            <input
+              type="text"
+              className="w-full p-2 border border-gray-300 rounded-md mb-4"
+              placeholder="Enter test code"
+              value={testCode}
+              onChange={handleTestCodeChange}
+            />
+            <div className="flex justify-end space-x-4">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                onClick={startTest}
+              >
+                Start Test
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
-export default Dashboard;
+export default Admin;

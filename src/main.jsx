@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Register from "./components/Register.jsx";
 import TestPage from './components/admin_test.jsx'
 import Dashboard from './components/admin_dashboard.jsx'
+import User from "./components/user.jsx"
 const router=createBrowserRouter([
   {
     path:'/',
@@ -29,6 +30,10 @@ const router=createBrowserRouter([
   {
     path:"admin",
     element: <Admin/>
+  },
+  {
+    path:"user",
+    element: <User/>
   },
   {
     path:"/test-page",

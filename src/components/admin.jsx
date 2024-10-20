@@ -22,7 +22,7 @@ const Admin = () => {
     console.log('Test Started with Code:', testCode);
     
     // Redirect to the test page (replace '/test-page' with the correct route)
-    navigate('/test-page', { state: { testCode } });
+    navigate('/test-page' , { state: { testCode } });
     
     closeModal();
   };
@@ -35,7 +35,7 @@ const Admin = () => {
           <div className="flex flex-col justify-center items-center ">
             <img
               className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
-              src="https://via.placeholder.com/150"
+              src="https://cdn.britannica.com/93/215393-050-E428CADE/Canadian-actor-musician-Ryan-Gosling-2016.jpg"
               alt="Profile"
             />
             <h2 className="text-xl font-bold text-gray-800">John Doe</h2>

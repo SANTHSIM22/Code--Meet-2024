@@ -36,7 +36,7 @@ const Login_admin = () => {
           <p className="text-center text-xl font-bold">Login</p>
           <form className="mt-6" onSubmit={handleSubmit}>
             <div className="mt-1 text-sm">
-              <label htmlFor="username" className="block text-gray-400">
+              <label htmlFor="username" className="block text-gray-400 mb-2">
                 Username
               </label>
               <input
@@ -51,7 +51,7 @@ const Login_admin = () => {
               />
             </div>
             <div className="mt-4 text-sm">
-              <label htmlFor="password" className="block text-gray-400">
+              <label htmlFor="password" className="block text-gray-400 mb-2">
                 Password
               </label>
               <input
@@ -79,14 +79,14 @@ const Login_admin = () => {
           </form>
           <div className="flex items-center my-4">
             <span className="w-full h-px bg-gray-600"></span>
-            <span className="px-3 text-sm text-gray-400">Login with social accounts</span>
-            <span className="w-full h-px bg-gray-600"></span>
+            
+            
           </div>
           <div className="flex justify-center space-x-3">
             {/* Social login buttons can go here */}
           </div>
           {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
-          <p className="mt-4 text-center text-xs text-gray-400">
+          <p className="text-center text-xs text-gray-400">
             Don't have an account?{" "}
             <a href="/register" className="text-gray-200 hover:underline">
               Sign up

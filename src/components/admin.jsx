@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import Navbar from './navbar';
+import { useNavigate } from 'react-router-dom';  // Import the hook
 
 const Admin = () => {
   // State to control modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [testCode, setTestCode] = useState('');
+  
+  // Initialize the navigation hook
+  const navigate = useNavigate();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -16,6 +20,10 @@ const Admin = () => {
   const startTest = () => {
     // Handle starting the test logic
     console.log('Test Started with Code:', testCode);
+    
+    // Redirect to the test page (replace '/test-page' with the correct route)
+    navigate('/test-page', { state: { testCode } });
+    
     closeModal();
   };
 
@@ -66,7 +74,6 @@ const Admin = () => {
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
             <h2 className="text-xl font-bold mb-4">Create Test</h2>
-            <form action="">
             <input
               type="text"
               className="w-full p-2 border border-gray-300 rounded-md mb-4"
@@ -87,9 +94,7 @@ const Admin = () => {
               >
                 Start Test
               </button>
-              
             </div>
-            </form>
           </div>
         </div>
       )}

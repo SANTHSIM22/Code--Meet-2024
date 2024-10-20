@@ -6,6 +6,8 @@ import './index.css'
 import Admin from './components/admin.jsx'
 import Login_user from './components/login_user.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import TestPage from './components/admin_test.jsx'
+import Dashboard from './components/admin_dashboard.jsx'
 const router=createBrowserRouter([
   {
     path:'/',
@@ -23,7 +25,11 @@ const router=createBrowserRouter([
     path:"admin",
   element: <Admin/>
     
-  }
+  },
+  {
+     path:"/test-page" ,element:<TestPage />
+  },
+   {path:"dashboard",element: <Dashboard/>}
 
 ])
 ReactDOM.createRoot(document.getElementById('root')).render(

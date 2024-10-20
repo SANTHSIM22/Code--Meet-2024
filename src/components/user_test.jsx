@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const TestPage = () => {
+const McqTest = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const testCode = location.state?.testCode;
@@ -72,6 +72,7 @@ const TestPage = () => {
                 'Content-Type': 'application/json',  // Specify content type as JSON
             },
             body: JSON.stringify(questionData)  // Convert the questionData object to JSON
+        
         });
 
         // Check if the request was successful
@@ -202,4 +203,4 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default McqTest;

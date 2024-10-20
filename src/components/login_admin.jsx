@@ -77,21 +77,7 @@ const Login_admin = () => {
               Sign in
             </button>
           </form>
-          <div className="flex items-center my-4">
-            <span className="w-full h-px bg-gray-600"></span>
-            
-            
-          </div>
-          <div className="flex justify-center space-x-3">
-            {/* Social login buttons can go here */}
-          </div>
           {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
-          <p className="text-center text-xs text-gray-400">
-            Don't have an account?{" "}
-            <a href="/register" className="text-gray-200 hover:underline">
-              Sign up
-            </a>
-          </p>
         </div>
       </div>
   );

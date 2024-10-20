@@ -22,7 +22,7 @@ const User = () => {
       console.log('Test Started with Code:', testCode);
       
       // Redirect to the test page (replace '/test-page' with the correct route)
-      navigate('/test', { state: { testCode } });
+      navigate('/user_test', { state: { testCode } });
         
       closeModal();
     };

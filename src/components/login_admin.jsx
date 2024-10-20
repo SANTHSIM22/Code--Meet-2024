@@ -5,7 +5,6 @@ const Login_admin = () => {
   
       <div className="flex justify-center items-center  h-screen m-auto rounded-lg bg-gray-800 ">
         <div className="flex-col rounded-lg p-8 bg-gray-800 ">
-        
         <p className="text-center text-gray-300 text-xl font-bold">Login</p>      
         <form className="mt-6">
           <div className="mt-1 text-sm">

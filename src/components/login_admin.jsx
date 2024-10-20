@@ -10,24 +10,12 @@ const Login_admin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Send a POST request to log in
-    const response = await fetch("http://127.0.0.1:5000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    const questionData = {
+      testCode: testCode,  // Replace with your actual test code logic
+      timer: 60,  // Replace with your actual timer value or state
+      questions: questions  // Array of questions you've collected
+  }
 
-    const data = await response.json();
-
-    if (response.ok) {
-      // Successful login, redirect to the dashboard or admin page
-      navigate("/admin"); // Adjust this path as needed
-    } else {
-      // Display error message
-      setError(data.error || "Login failed");
-    }
   };
 
   return (

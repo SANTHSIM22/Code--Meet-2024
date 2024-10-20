@@ -5,7 +5,7 @@ const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const questions = location.state?.questions || []; // Get questions from state
-  const testCode = location.state?.testCode || 'No Code Provided'; // Get test code from state
+  const testCode = location.state?.testCode; // Get test code from state
 
   const handleAddQuestion = () => {
     navigate('/test', { state: { testCode } }); // Navigate to the TestPage with test code
@@ -34,11 +34,7 @@ const Dashboard = () => {
       <h1 className="text-3xl font-bold text-gray-900 mb-4">Dashboard</h1>
       <div className="bg-white p-4 rounded shadow-md w-full max-w-3xl">
         <h2 className="text-xl font-semibold mb-2">Test Code: {testCode}</h2>
-        {questions.length === 0 ? (
-          <p className="text-gray-600">No Questions Added</p>
-        ) : (
-          <p className="text-gray-600">Questions have been added.</p>
-        )}
+        <p className="text-gray-600">Test has been created!.</p>
         <div className="mt-4 flex justify-between">
           <button
             onClick={handleAddQuestion}

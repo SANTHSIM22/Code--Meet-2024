@@ -60,7 +60,7 @@ const Admin = () => {
         </div>
 
         {/* Main Section: Start Test Button */}
-        <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6 mr-16 bg-https://media.istockphoto.com/id/1160720443/vector/abstract-simple-geometric-vector-seamless-pattern-with-gold-line-texture-on-white-background.jpg?s=612x612&w=0&k=20&c=_kgBISj1Wio4LTRdBFN3IttmunACCl1-T5VKdurvb68= bg-cover">
+        <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6 mr-16 bg-{logo}">
           <Ut2/>
           <p className="text-gray-600 text-lg text-center max-w-md font-Mont">
             Click below to start your exam. Please ensure you have a stable connection and adhere to the exam guidelines.

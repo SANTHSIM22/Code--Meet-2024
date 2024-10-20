@@ -6,7 +6,7 @@ from flask_cors import CORS
 from functools import wraps
 import json
 
-app = Flask(__name__)
+app = Flask(__name__ )
 CORS(app)  # Enable CORS
 
 # Function to create a connection to the database
@@ -175,6 +175,7 @@ def decode_token(token):
     # Implement token decoding logic (e.g., JWT)
     username, role = token.split('-token')
     return {'username': username, 'role': 'admin' if username == 'admin' else 'user'}
+
 
 if __name__ == '__main__':
     create_tables()  # Ensure the database and tables exist

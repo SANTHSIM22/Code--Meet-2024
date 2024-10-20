@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from './navbar'
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -30,9 +31,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">Dashboard</h1>
-      <div className="bg-white p-4 rounded shadow-md w-full max-w-3xl">
+    <div className=" flex  min-h-screen  items-center justify-center bg-blue-200 p-4">
+      <div className="flex flex-col w-screen h-screen justify-start items-center">
+      <h1 className="text-3xl font-bold h-60 text-gray-900 mb-4 align-text-top ">Dashboard</h1>
+      <div className="bg-slate-100 p-4 rounded hover:shadow-2xl hover:shadow-blue-300 transition  ease-linear  w-full max-w-3xl border border-zinc-300">
         <h2 className="text-xl font-semibold mb-2">Test Code: {testCode}</h2>
         {questions.length === 0 ? (
           <p className="text-gray-600">No Questions Added</p>
@@ -42,30 +44,32 @@ const Dashboard = () => {
         <div className="mt-4 flex justify-between">
           <button
             onClick={handleAddQuestion}
-            className="bg-blue-500 text-white p-2 rounded"
+            className="bg-blue-500 text-white p-2 w-40 rounded"
           >
             Change Questions
           </button>
           <button
             onClick={handleStartTest}
-            className="bg-green-500 text-white p-2 rounded"
+            className="bg-green-500 text-white p-2 w-40 rounded"
           >
             Start Test
           </button>
           <button
             onClick={handleEndTest}
-            className="bg-red-500 text-white p-2 rounded"
+            className="bg-red-500 text-white p-2  w-40 rounded"
           >
             End Test
           </button>
           <button
             onClick={handleResetTest}
-            className="bg-yellow-500 text-white p-2 rounded"
+            className="bg-yellow-500 text-white w-40 p-2 rounded"
           >
             Reset Test
           </button>
         </div>
       </div>
+      </div>
+      <Navbar/>
     </div>
   );
 };

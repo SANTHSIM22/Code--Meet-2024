@@ -54,13 +54,41 @@ const TestPage = () => {
     setCurrentQuestionIndex(index);
   };
 
-  const handleSubmit = () => {
-    updateQuestion();
-    console.log("Submitted Questions: ", questions);
-    alert("Test Submitted Successfully!");
 
-    // Redirect to the Dashboard component
-    navigate('/dashboard', { state: { questions } });
+  const handleSubmit = async () => {
+    updateQuestion();  // Ensure the current question is updated in the array
+
+    const questionData = {
+        testCode: testCode,  // Replace with your actual test code logic
+        timer: 60,  // Replace with your actual timer value or state
+        questions: questions  // Array of questions you've collected
+    };
+
+    try {
+        // Make the POST request to your Flask backend
+        const response = await fetch('http://127.0.0.1:5000/create-test', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',  // Specify content type as JSON
+            },
+            body: JSON.stringify(questionData)  // Convert the questionData object to JSON
+        });
+
+        // Check if the request was successful
+        if (response.ok) {
+            const result = await response.json();  // Get the result from the backend
+            console.log("Submitted Questions: ", result);
+            alert("Test Submitted Successfully!");
+
+            // Redirect to the Dashboard component
+            navigate('/dashboard', { state: { testCode: questionData.testCode } });
+        } else {
+            throw new Error('Failed to submit questions');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('There was an error submitting the questions. Please try again.');
+    }
   };
 
   const handleRemoveQuestion = (index) => {
@@ -81,7 +109,7 @@ const TestPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
       <h1 className="text-3xl font-bold text-gray-900 mb-4">
-        Test Code: {testCode || 'No Code Provided'}
+        Test Code: {testCode}
       </h1>
 
       {/* Main container with flex row layout */}

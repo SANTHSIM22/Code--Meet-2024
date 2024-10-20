@@ -30,15 +30,16 @@ const Admin = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+        <div className='flex-1 flex flex-col items-center justify-center'>
         {/* Sidebar: Profile Section */}
-        <aside className="w-full md:w-64 bg-white p-6 shadow-lg">
+        <aside className="w-[500px] h-full absolute left-0 bg-white p-6 shadow-lg flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center ">
             <img
               className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
               src="https://via.placeholder.com/150"
               alt="Profile"
             />
-            <h2 className="text-xl font-bold text-gray-800">John Doe</h2>
+            <h2 className="text-xl font-bold text-gray-800 ">John Doe</h2>
             <p className="text-sm text-gray-500">Student</p>
           </div>
           <nav className="mt-8 space-y-4 w-full">
@@ -50,6 +51,7 @@ const Admin = () => {
             </button>
           </nav>
         </aside>
+        </div>
 
         {/* Main Section: Start Test Button */}
         <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6">

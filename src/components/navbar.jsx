@@ -11,7 +11,7 @@ const navbar = () => {
                     <li className="mr-4 hover:text-sky-500"><a href="#" className="underline  hover:decoration-sky-500">Login</a></li>
                     <li className="mr-4 hover:text-sky-500"><a href="#" className="underline   hover:decoration-sky-500">Dashboard</a></li>
                     <li className="mr-4 hover:text-sky-500"><a href="#" className="underline   hover:decoration-sky-500">Admin</a></li>
-                    <li className=" hover:text-sky-500"><a href="#" className="underline   hover:decoration-sky-500">Logout</a></li>
+                    <li className="hover:text-sky-500"><a href="#" className="underline   hover:decoration-sky-500">Logout</a></li>
                 </ul>
                 
         </div>

@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import React from 'react'
-import Navbar from './navbar'
-=======
 import React, { useState } from 'react';
 import Navbar from './navbar';
->>>>>>> 4b0867b3075ca07ab81a40fde79669fe7d652b12
 
 const Admin = () => {
   // State to control modal visibility
@@ -26,35 +21,10 @@ const Admin = () => {
 
   return (
     <>
-<<<<<<< HEAD
-    <Navbar/>
-<div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
-  {/* Sidebar: Profile Section */}
-  <aside className="w-full md:w-64 bg-white p-6 shadow-lg">
-    <div className="flex flex-col items-center">
-      <img
-        className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
-        src="https://via.placeholder.com/150"
-        alt="Profile"
-      />
-      <h2 className="text-xl font-bold text-gray-800">John Doe</h2>
-      <p className="text-sm text-gray-500">Student</p>
-    </div>
-    <nav className="mt-8 space-y-4 w-full">
-      <button className="w-full px-4 py-3 bg-blue-50 text-blue-700 font-medium rounded-lg hover:bg-blue-100 transition duration-300">
-        View Profile
-      </button>
-      <button className="w-full px-4 py-3 bg-red-50 text-red-600 font-medium rounded-lg hover:bg-red-100 transition duration-300">
-        Log Out
-      </button>
-    </nav>
-  </aside>
-=======
-      <Navbar />
       <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
         {/* Sidebar: Profile Section */}
         <aside className="w-full md:w-64 bg-white p-6 shadow-lg">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col justify-center items-center ">
             <img
               className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
               src="https://via.placeholder.com/150"
@@ -72,7 +42,6 @@ const Admin = () => {
             </button>
           </nav>
         </aside>
->>>>>>> 4b0867b3075ca07ab81a40fde79669fe7d652b12
 
         {/* Main Section: Start Test Button */}
         <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6">
@@ -89,6 +58,7 @@ const Admin = () => {
             Create test
           </button>
         </main>
+      <Navbar />
       </div>
 
       {/* Modal */}

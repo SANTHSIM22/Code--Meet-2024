@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
-
+import FaceOrientationChecker from './video';
 
 const McqTest = () => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -23,7 +23,7 @@ const McqTest = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        handleSubmitTest(); // Automatically submit the test if the document is hidden
+        // handleSubmitTest(); // Automatically submit the test if the document is hidden
       }
     };
     
@@ -278,6 +278,7 @@ const McqTest = () => {
           </>
         ) : (
           <div>
+                <FaceOrientationChecker/>
             <h1 className="text-3xl font-bold text-gray-900 mb-4">Test Code: {testCode}</h1>
             <div className="flex w-full mt-4 space-x-4">
               <div className="w-1/4 bg-white p-4 rounded shadow-md">

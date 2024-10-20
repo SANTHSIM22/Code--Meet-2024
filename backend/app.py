@@ -82,6 +82,35 @@ def login():
 
     return jsonify({"message": "Invalid username or password."}), 401
 
+
+@app.route('/get-test-data/<test_code>', methods=['GET'])
+def get_test_data(test_code):
+    conn = get_db_connection()
+
+    # Query the test based on test_code
+    test_query = '''
+        SELECT test_code, questions, timer, is_test_started
+        FROM tests
+        WHERE test_code = ?
+    '''
+    test = conn.execute(test_query, (test_code,)).fetchone()
+    conn.close()
+    if test:
+        # Parse the questions JSON string to a Python list
+        questions = json.loads(test['questions'])
+        
+        # Prepare and return the response as JSON
+        test_data = {
+            'test_code': test['test_code'],
+            'questions': questions,  # This will now be a list of question dictionaries
+            'timer': test['timer'],
+            'is_test_started': test['is_test_started']
+        }
+        return jsonify(test_data)
+    else:
+        return jsonify({'error': 'Test not found'}), 404
+
+
 @app.route('/admin', methods=['GET'])
 def admin_dashboard():
     return jsonify({"message": "Welcome to the Admin Dashboard!"})

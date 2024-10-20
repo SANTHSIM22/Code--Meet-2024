@@ -135,7 +135,7 @@ def create_test():
     if existing_test:
         conn.close()
         return jsonify({"message": "Test code already exists."}), 400
-    json_question = json.dump(questions)
+    json_question = json.dumps(questions)
     # Insert new test into database
     conn.execute('INSERT INTO tests (test_code, questions, timer, is_test_started) VALUES (?, ?, ?, ?)',
                  (test_code, json_question, timer, False))

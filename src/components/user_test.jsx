@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
-
+import FaceOrientationChecker from './video';
 
 const McqTest = () => {
   const navigate = useNavigate(); // Initialize useNavigate

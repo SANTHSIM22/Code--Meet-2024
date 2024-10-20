@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './navbar';
-import { useNavigate } from 'react-router-dom';  // Import the hook
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 const Admin = () => {
   // State to control modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [testCode, setTestCode] = useState('');
-  
-  // Initialize the navigation hook
+  const location = useLocation();
+  const username = location.state?.username;
   const navigate = useNavigate();
+  console.log(username);
+  useEffect(() => {
+    if (!username) {
+      navigate("/login_admin"); // Redirect to login page
+    }
+  }, [username, navigate]);
+  // Initialize the navigation hook
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
+  
   const handleTestCodeChange = (e) => {
     setTestCode(e.target.value);
   };
@@ -26,6 +34,8 @@ const Admin = () => {
     
     closeModal();
   };
+  
+  
 
   return (
     <>
@@ -39,8 +49,8 @@ const Admin = () => {
               src="https://cdn.britannica.com/93/215393-050-E428CADE/Canadian-actor-musician-Ryan-Gosling-2016.jpg"
               alt="Profile"
             />
-            <h2 className="text-xl font-bold text-gray-800 ">John Doe</h2>
-            <p className="text-sm text-gray-500">Student</p>
+            <h2 className="text-xl font-bold text-gray-800 ">{username}</h2>
+            <p className="text-sm text-gray-500">Admin</p>
           </div>
           <nav className="mt-8 space-y-4 w-full">
             <button className="w-full px-4 py-3 bg-blue-50 text-blue-700 font-medium rounded-lg hover:bg-blue-100 transition duration-300">

@@ -129,10 +129,14 @@ const Dashboard = () => {
         </div><div className="w-full">
         <table className='table-auto border border-zinc-500 w-11/12 bg-white font-Orbitron  mt-8'>
         <tr>
+        <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>User Name</th>
         <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>IP Address</th>
         <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>Session Login</th>
         </tr>
         <tbody >
+        <td className="border border-zinc-500 hover:bg-sky-200 p-4  text-medium">
+          John Doe
+          </td>
           <td className="border border-zinc-500 hover:bg-sky-200 p-4  text-medium">
           192.168.0.100
 

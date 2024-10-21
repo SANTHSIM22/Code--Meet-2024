@@ -257,7 +257,7 @@ const McqTest = () => {
   };
 
   return (
-    <div className="flex user-select-none flex-col items-center justify-center bg-profile p-4">
+    <div className="flex user-select-none flex-col items-center justify-center  p-4">
       <div className="w-full max-w-4xl">
         {!isTestStarted ? (
           <>
@@ -275,6 +275,25 @@ const McqTest = () => {
             >
               Submit Code
             </button>
+            
+          <div className=" font-Cabin bg-slate-200 hover:shadow-xl  m-8 p-4 rounded-lg text-xl">
+            <h1 className=' text-2xl'>Rules:</h1>
+            <ul className="list-disc list-inside space-y-2">
+            <li>Upon the end of time, the exam will be automatically submitted.
+            </li>
+            <li>Students should not switch tabs during examinations.
+            </li>
+            <li>
+            Students should not exit fullscreen mode during examination.
+            </li>
+            <li>
+            Students must make sure that they are facing the camera.
+            </li>
+            <li>
+            Repeated offenses will lead to exam termination.
+            </li>
+            </ul>
+          </div>
           </>
         ) : (
 

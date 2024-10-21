@@ -86,7 +86,7 @@ const Dashboard = () => {
           <tbody>
             {tests.map((test, index) => (
               <tr key={index} className="font-medium text-center">
-                <td className="border border-zinc-500 hover:bg-sky-200  text-medium">
+                <td className="border border-zinc-500  hover:bg-sky-200 text-medium">
                   {test.test_code}
                 </td>
                 <td className="border border-zinc-500  flex justify-around items-center p-2">
@@ -129,8 +129,8 @@ const Dashboard = () => {
         </div><div className="w-full">
         <table className='table-auto border border-zinc-500 w-11/12 bg-white font-Orbitron  mt-8'>
         <tr>
-        <th className='text-2xl border border-zinc-500 bg-black text-white hover:bg-zinc-400 p-2 '>IP Address</th>
-        <th className='text-2xl border border-zinc-500 bg-black text-white hover:bg-zinc-400 p-2 '>Session Login</th>
+        <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>IP Address</th>
+        <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>Session Login</th>
         </tr>
         <tbody >
           <td className="border border-zinc-500 hover:bg-sky-200 p-4  text-medium">

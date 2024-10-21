@@ -52,6 +52,19 @@ def create_tables():
             is_test_started BOOLEAN NOT NULL
         )
     ''')
+
+    # User test sessions table
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS user_test_sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            test_id INTEGER NOT NULL,
+            answers TEXT NOT NULL,
+            ip_address TEXT NOT NULL,
+            session_login TEXT NOT NULL,
+            FOREIGN KEY (test_id) REFERENCES tests (id)
+        )
+    ''')
     
     conn.commit()
     conn.close()
@@ -181,6 +194,27 @@ def end_test():
 
     return jsonify({"message": "Test ended successfully."}), 200
 
+@app.route('/submit-test', methods=['POST'])
+def submit_test():
+    data = request.get_json()
+    username = data.get('username')
+    test_id = data.get('test_id')
+    answers = data.get('answers')
+    ip_address = request.remote_addr
+    session_login = data.get('session_login')
+
+    conn = get_db_connection()
+    
+    # Insert data into the user_test_sessions table
+    conn.execute('''
+        INSERT INTO user_test_sessions (username, test_id, answers, ip_address, session_login)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (username, test_id, json.dumps(answers), ip_address, session_login))
+    
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"message": "Test submitted successfully."}), 201
 
 @app.route('/get-test-data/<test_code>', methods=['GET'])
 def get_test_data(test_code):

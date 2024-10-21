@@ -127,7 +127,7 @@ def face_orientation():
     # Detect faces in the image
     faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5)
 
-    orientation_status = "No Face Detected"
+    orientation_status = ""
     if len(faces) > 0:
         for face_rect in faces:
             orientation_status = analyze_head_orientation(face_rect, frame.shape)

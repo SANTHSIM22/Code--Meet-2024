@@ -257,11 +257,11 @@ const McqTest = () => {
   };
 
   return (
-    <div className="flex user-select-none flex-col items-center justify-center bg-profile p-4">
-      <div className="w-full max-w-4xl">
+    <div className="flex  user-select-none h-full flex-col items-center justify-center  p-4">
+      <div className="w-full   max-w-4xl">
         {!isTestStarted ? (
           <>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Enter Test Code</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Enter Test Code:</h1>
             <input
               type="text"
               placeholder="Enter Test Code"
@@ -279,18 +279,21 @@ const McqTest = () => {
         ) : (
 
           <div>
-            <div className="flex w-full mt-4 space-x-4">
+            <div className="flex w-full mt-4space-x-4">
               
-              <div className="flex-grow absolute left-0 w-[70%] m-8  h-[70%] bg-gray-100 rounded-sm p-4  shadow-xl">
-                <div className='flex justify-between items-center  '>
+              <div className="flex-grow absolute left-0 w-[70%] m-8   h-[70%] bg-gray-100 rounded-sm p-4  shadow-xl">
+                <div className='flex justify-between items-center  mx-24 mt-4  '>
                 <h2 className="text-5xl font-semibold mb-9 font-Orbitron">
-                  Question {currentQuestionIndex + 1}
+                  Question {currentQuestionIndex + 1} :
                 </h2>
                   <h1 className="text-2xl font-bold text-gray-900 mb-4 text-right font-Orbitron">Test Code: {testCode}</h1>
                   </div>
-                <p className="mb-9 text-3xl  font-lex ml-10">{questions[currentQuestionIndex]?.question}</p>
+                <p className="mb-9 text-3xl  font-lex ml-24">{questions[currentQuestionIndex]?.question}</p>
+                <h1 className='text-2xl font-bold text-gray-900 mb-4 text-left ml-24 font-Orbitron'>Options:</h1>
                 {questions[currentQuestionIndex]?.options.map((option, index) => (
-        <div key={index} className="mb-2 text-2xl ml-10">
+                  
+        <div key={index} className="mb-2 text-2xl ml-24">
+      
         <label className="flex items-center font-lex  cursor-pointer">
           <input
             type="radio"
@@ -300,15 +303,15 @@ const McqTest = () => {
             className="hidden peer"
           />
           <span className="w-4 h-4 rounded-full border border-gray-400 peer-checked:bg-blue-500 peer-checked:border-blue-500 transition-all"></span>
-          <span className="ml-3 text-gray-800">{option}</span>
+          <span className="ml-3 text-gray-800 font-lex">{option}</span>
         </label>
       </div>
       
                 ))}
-                <div className="flex justify-between mt-10 font-Orbitron">
+                <div className="flex start mx-2 mt-20 font-Orbitron">
                   <button
                     onClick={handlePrevQuestion}
-                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded"
+                    className="bg-gray-300 text-gray-800 px-4 py-2 mx-4 ml-24 rounded"
                     disabled={currentQuestionIndex === 0}
                   >
                     Previous
@@ -325,13 +328,13 @@ const McqTest = () => {
                   </button>
                 </div>
               </div>
-              <div className=" absolute bottom-0 right-3 w-[25%] h-[45%] bg-gray-100 p-4 m-4 rounded-md shadow-md">
-                <h2 className="text-xl font-semibold mb-2">Navigate Questions</h2>
+              <div className=" absolute bottom-0 right-3 w-[25%] h-[40%] bg-gray-100 p-4 m-4 rounded-md shadow-md">
+                <h2 className="text-xl font-semibold mb-4 font-Orbitron   ">Navigate Questions</h2>
                 <div className="flex flex-wrap gap-2">
                   {questions.map((_, index) => (
                     <button
                     key={index}
-                    className={`px-3 py-1 border rounded ${
+                    className={`px-5 py-3 border rounded ${
                       index === currentQuestionIndex ? 'bg-blue-500 text-white' : 'bg-gray-300'
                     }`}
                     onClick={() => setCurrentQuestionIndex(index)}
@@ -341,13 +344,13 @@ const McqTest = () => {
                   ))}
                 </div>
               </div>
-              <div className="bg-black absolute top-0 right-2 m-8 w-[25%] h-[40%] rounded shadow-md">
+              <div className="bg-black absolute top-0 right-7 mt-16 w-[25%] h-[45%] rounded-md shadow-md">
                   <FaceOrientationChecker />
               </div>
-              <div className="absolute flex flex-row justify-start items-center bottom-0 left-3 w-[70%] m-2  ">
-                <p className="text-5xl font-medium ">Timer:</p>
-                <h1 className="text-9xl">23</h1>
-                <div className=" text-3xl">Minutes</div>
+              <div className="absolute flex flex-row justify-start items-center bottom-8 py-10 px-24  bg-gray-100 shadow-xl rounded-md ml-4 left-3 w-[70%] m-2  ">
+                <p className="text-5xl font-medium font-Orbitron  ">Timer:</p>
+                <h1 className="text-8xl mx-4">23</h1>
+                <div className=" text-3xl font-Orbitron">Minutes</div>
                 </div>
             </div>
           </div>
@@ -357,7 +360,7 @@ const McqTest = () => {
         {modalVisible && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-8 rounded shadow-lg w-1/2">
-              <h2 className="text-2xl font-bold mb-4">Warning</h2>
+              <h2 className="text-2xl font-bold mb-4 font-Lex text-red-700">Warning!!!</h2>
               <p>
                 You've exited fullscreen mode. Please return to fullscreen to continue the test. You have{' '}
                 {remainingWarnings} warnings left. The test will be submitted in {countdown} seconds if you don't return

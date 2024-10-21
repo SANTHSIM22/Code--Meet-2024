@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import logo from '../assets/logoexam.jpg'
 
 const Login_user = () => {
   const [username, setUsername] = useState('');
@@ -36,13 +37,17 @@ const Login_user = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-200 bg-custom-login-pattern">
-      <div className="w-80 rounded-lg bg-gray-950 p-8">
-        <p className="text-center text-xl font-bold">Login</p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white text-gray-200 ">
+        <img className=" w-24 h-24 rounded-full m-8" alt="Logo" src={logo}>
+        </img>
+        <h1 className="font-Zen font-medium text-end text-3xl mb-2 text-black  ">eProctor</h1>
+
+      <div className="w-80 rounded-lg bg-gray-100 p-8 shadow-xl">
+        <p className="text-center text-xl font-bold text-black font-Orbitron">Login</p>
         <form className="mt-6" onSubmit={handleSubmit}>
           <div className="mt-1 text-sm">
-            <label htmlFor="username" className="block text-gray-400">
-              Username
+            <label htmlFor="username" className="block text-gray-900 font-Lex ">
+              Username:
             </label>
             <input
               type="text"
@@ -50,12 +55,12 @@ const Login_user = () => {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-gray-200 focus:border-indigo-400 focus:outline-none"
+              className="w-full rounded-md border border-black bg-white px-3 py-2 text-black focus:border-indigo-400 focus:outline-none"
             />
           </div>
           <div className="mt-4 text-sm">
-            <label htmlFor="password" className="block text-gray-400">
-              Password
+            <label htmlFor="password" className="block text-gray-900 font-Lex">
+              Password:
             </label>
             <input
               type="password"
@@ -63,7 +68,7 @@ const Login_user = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-gray-200 focus:border-indigo-400 focus:outline-none"
+              className="w-full rounded-md border border-black bg-white px-3 py-2 text-black focus:border-indigo-400 focus:outline-none"
             />
             <div className="flex justify-end mt-2 text-xs text-gray-400">
 
@@ -71,15 +76,15 @@ const Login_user = () => {
           </div>
           <button
             type="submit"
-            className="mt-6 w-full rounded-md bg-indigo-500 py-2 text-gray-900 font-semibold hover:bg-indigo-600"
+            className="mt-6 w-full rounded-md bg-black py-2 text-white font-semibold hover:bg-indigo-950 font-Orbitron"
           >
             Sign in
           </button>
         </form>
         {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
-        <p className="mt-4 text-center text-xs text-gray-400">
+        <p className="mt-4 text-center text-xs text-black font-Lex">
           Don&apos;t have an account?{" "}
-          <a href="#" className="text-gray-200 hover:underline">
+          <a href="/Register" className="text-black hover:underline hover:text-indigo-600 ">
             Sign up
           </a>
         </p>

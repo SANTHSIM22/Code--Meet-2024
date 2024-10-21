@@ -52,8 +52,8 @@ const Admin = () => {
         <aside className="w-[500px] h-full absolute left-0 b p-6 shadow-2xl flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center ">
             <img
-              className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
-              src="https://www.irvineparkrailroad.com/wp-content/uploads/2016/06/150x150-image-placeholder.jpg"
+              className="w-52 h-52 rounded-full object-cover mb-4 border-4 border-blue-500"
+              src="https://i.pinimg.com/originals/59/af/9c/59af9cd100daf9aa154cc753dd58316d.jpg"
               alt="Profile"
             />
             <h2 className="text-2xl font-bold text-gray-800 font-Lex  ">{username}</h2>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logoexam.jpg'
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -32,34 +33,37 @@ function Register() {
   };
 
   return (
-    <div className = "flex justify-center items-center min-h-screen bg-gray-900 text-gray-200 bg-custom-login-pattern">
-      <div className = "flex flex-col justify-center items-center  bg-gray-950 p-8 rounded-lg">
+    <div className = "flex flex-col justify-center items-center min-h-screen bg-white text-gray-200 ">
+       <img className=" w-24 h-24 rounded-full m-8" alt="Logo" src={logo}>
+        </img>
+        <h1 className="font-Zen font-medium text-end text-3xl mb-2 text-black  ">eProctor</h1>
+      <div className = "flex flex-col justify-center items-center  bg-gray-100 p-8 rounded-lg">
 
       
-      <h1 className="mb-8 font-medium text-2xl  dark:text-white">Register</h1>
+      <h1 className="mb-8 font-medium text-2xl  text-black font-Orbitron ">Register</h1>
       <form onSubmit={handleSubmit}>
-        <div className = "mb-2 ">
+        <div className = "mb-2 font-Lex ">
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
             required
-            className="mb-4 w-80 p-2 rounded-lg text-slate-950 "
+            className="mb-4 w-80 p-2 rounded-lg text-slate-950 border-black "
           />
         </div>
-        <div className="mb-2">
+        <div className="mb-2 font-Lex">
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
-            className="mb-4 w-80 p-2 rounded-lg text-slate-950"
+            className="mb-4 w-80 p-2 rounded-lg text-slate-950 border-black"
           />
         </div>
-        <div className="mb-0">
-          <label htmlFor="role">Select Role:</label>
+        <div className="mb-0 font-Lex text-black">
+          <label htmlFor="role   ">Select Role:</label>
           <select
             id="role"
             value={role}
@@ -72,7 +76,7 @@ function Register() {
         </div>
         <button
           type="submit"
-         className="mt-8 w-full rounded-md bg-green-500 py-2 text-gray-900 font-semibold hover:bg-green-600"
+         className="mt-8 w-full rounded-md bg-black py-2 text-white font-semibold hover:bg-indigo-950 font-Orbitron"
         >
           Register
         </button>

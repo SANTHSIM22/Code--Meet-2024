@@ -9,7 +9,13 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [tests, setTests] = useState([]); // State to hold fetched tests
   const [userDetails, setUserDetails] = useState([]); // State to hold user-specific details
-
+  const username = location.state?.username;
+  console.log(username);
+  useEffect(() => {
+    if (!username) {
+      navigate("/login_admin"); // Redirect to login page
+    }
+  }, [username, navigate]);
   // Fetch tests on component mount
   useEffect(() => {
     fetchTests();

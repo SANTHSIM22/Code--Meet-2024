@@ -9,9 +9,6 @@ This project is a web-based proctoring system built using Flask for the backend 
 - [Backend Setup (Flask)](#backend-setup-flask)
 - [Frontend Setup (React)](#frontend-setup-react)
 - [Running the Application](#running-the-application)
-- [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
-- [Troubleshooting](#troubleshooting)
 
 ## Features
 
@@ -74,7 +71,7 @@ python app.py
 ```
 The Flask server will be running at http://127.0.0.1:5000.
 
-Frontend Setup (React)
+# Frontend Setup (React)
 
 Install Frontend Dependencies
 

@@ -13,7 +13,7 @@ const User = () => {
     console.log('Test Started');
     
     // Redirect to the test page (replace '/user_test' with the correct route)
-    navigate('/user_test');
+    navigate('/user_test', { state: { username } });
   };
   const location = useLocation();
   const username = location.state?.username;
@@ -59,7 +59,7 @@ const User = () => {
           </p>
           <button
             className="px-10 py-4 bg-blue-600 text-white font-semibold text-lg rounded-full shadow-md hover:bg-blue-700 transition duration-300"
-            onClick={startTest}
+            onClick={startTest} 
           >
             Start Exam
           </button>

@@ -76,7 +76,7 @@ const Dashboard = () => {
         <Ut3/>
        
           <div className="w-full">
-        <table className='table-auto w-11/12 border border-zinc-500 bg-white font-Orbitron mt-8 '>
+        <table className='table-auto w-11/12 border border-zinc-500 bg-white font-Orbitron mt-8 ml-12 '>
           <thead>
             <tr>
               <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>Test Code</th>
@@ -127,7 +127,7 @@ const Dashboard = () => {
           </tbody>
         </table>
         </div><div className="w-full">
-        <table className='table-auto border border-zinc-500 w-11/12 bg-white font-Orbitron  mt-8'>
+        <table className='table-auto border border-zinc-500 w-11/12 bg-white font-Orbitron  mt-8 ml-12'>
         <tr>
         <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>User Name</th>
         <th className='text-2xl border border-zinc-500 bg-black text-white p-2 '>IP Address</th>

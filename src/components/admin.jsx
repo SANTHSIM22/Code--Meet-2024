@@ -36,9 +36,12 @@ const Admin = () => {
     navigate('/test-page' , { state: { testCode } });
     
     closeModal();
+
   };
   
-  
+  const logout = () => {
+    navigate('/');
+  }  
 
   return (
     <>
@@ -61,7 +64,8 @@ const Admin = () => {
           </div>
           <nav className="mt-8 space-y-4 w-full">
             
-            <button className="w-full px-4 py-3 bg-red-100 font-Orbitron text-red-600 font-medium rounded-lg hover:bg-red-200 transition duration-300">
+            <button className="w-full px-4 py-3 bg-red-100 font-Orbitron text-red-600 font-medium rounded-lg hover:bg-red-200 transition duration-300"
+            onClick={logout}>
               Log Out
             </button>
           </nav>

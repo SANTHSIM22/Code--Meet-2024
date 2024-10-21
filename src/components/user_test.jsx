@@ -141,7 +141,7 @@ const McqTest = () => {
     try {
       const response = await axios.get(`http://localhost:5000/get-test-data/${testCode}`);  // Fetch data from Flask backend
       const data = response.data;
-
+      if(data.is_test_started) {
       if (testCode == data.test_code) {
         setQuestions(data.questions);
         setIsTestStarted(true);
@@ -154,6 +154,7 @@ const McqTest = () => {
         alert('The test code you entered is invalid. Please try again.');
         setQuestions([]);
       }
+    }
     } catch (error) {
       console.error('Error fetching test data:', error);
     }

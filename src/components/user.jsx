@@ -16,6 +16,10 @@ const User = () => {
     // Redirect to the test page (replace '/user_test' with the correct route)
     navigate('/user_test', { state: { username } });
   };
+
+  const logout = () => {
+    navigate('/');
+  }
   const location = useLocation();
   const username = location.state?.username;
   useEffect(() => {
@@ -45,7 +49,8 @@ const User = () => {
           </div>
           <nav className="mt-8 space-y-4 w-full">
             
-            <button className="w-full px-4 py-3 bg-red-50 text-red-600 font-medium rounded-lg font-Orbitron hover:bg-red-100 transition duration-300">
+            <button className="w-full px-4 py-3 bg-red-50 text-red-600 font-medium rounded-lg font-Orbitron hover:bg-red-100 transition duration-300"
+            onClick={logout}>
               Log Out
             </button>
           </nav>

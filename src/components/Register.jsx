@@ -25,7 +25,7 @@ function Register() {
 
     if (response.ok) {
       // Successful registration, redirect to login page
-      navigate('/login');
+      navigate('/');
     } else {
       // Display error message
       setError(data.message || 'Registration failed');

@@ -3,6 +3,7 @@ import Navbar from './navbar';
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logoexam.jpg"
 import Ut2 from "./underline2"
+import Marquee from "./textloop"
 
 
 const Admin = () => {
@@ -46,7 +47,7 @@ const Admin = () => {
           </img>
           <h1 className="font-Zen font-medium text-end mt-6 text-2xl  ">eProctor</h1>
           
-        <div className='flex-1 flex flex-col items-center justify-center'>
+        <div className='flex-1 flex flex-col items-center justify-center max-w-72'>
         {/* Sidebar: Profile Section */}
         <aside className="w-[500px] h-full absolute left-0 b p-6 shadow-2xl flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center ">
@@ -69,9 +70,10 @@ const Admin = () => {
 
         {/* Main Section: Start Test Button */}
         <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6 mr-16 bg-{logo}">
+          <Marquee/>
           <Ut2/>
           <p className="text-gray-600 text-lg text-center max-w-md font-Mont">
-            Click below to start your exam. Please ensure you have a stable connection and adhere to the exam guidelines.
+            Click below to create your exam.
           </p>
           <button
             className="px-10 py-4 bg-blue-600 text-white font-semibold text-lg rounded-full shadow-md hover:bg-blue-700 transition duration-300"

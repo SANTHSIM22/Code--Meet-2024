@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     salt TEXT NOT NULL,
     role TEXT NOT NULL CHECK (role IN ('admin', 'user'))
 )
+            
 ''')
 
 conn.commit()

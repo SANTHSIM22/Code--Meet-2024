@@ -306,6 +306,30 @@ def create_test():
 
     return jsonify({"message": "Test created successfully."}), 201
 
+@app.route('/get-user-sessions', methods=['GET'])
+def get_user_sessions():
+    conn = get_db_connection()
+    
+    # Fetch username, ip_address, and session_login from user_test_sessions
+    sessions_query = '''
+        SELECT username, ip_address, session_login
+        FROM user_test_sessions
+    '''
+    sessions = conn.execute(sessions_query).fetchall()
+    conn.close()
+    
+    # Convert sessions to a list of dictionaries
+    sessions_data = []
+    for session in sessions:
+        sessions_data.append({
+            'username': session['username'],
+            'ip_address': session['ip_address'],
+            'session_login': session['session_login']
+        })
+    
+    # Return the data as a JSON response
+    return jsonify(sessions_data), 200
+
 # Reset test (update questions and timer)
 @app.route('/reset-test', methods=['POST'])
 @role_required('admin')  # Only admin can reset tests

@@ -55,12 +55,12 @@ function FaceOrientationChecker() {
      <div  className='h-96 rounded-md '>
       <video ref={videoRef} className='rounded-md'></video>
       </div>
-      <div className='bg-black h-20 w-full rounded-md'>
+      <div className='bg-black h-24 w-full rounded-md'>
 
       </div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
-      <p className='hidden'>{status}</p>
-      {status === 'Face Turned Away' && <p style={{ color: 'red' }} className='text-3xl mx-auto ml-5  mt-2 font-Orbitron'>Please face the screen!</p>}
+      <p className='text-red-600 text-2xl ml-24 mt-3'>{status}</p>
+      {status === 'Face Turned Away' && <p style={{ color: 'red' }} className='text-3xl mx-auto ml-5  mt-2 font-Orbitron hidden'>Please face the screen!</p>}
     </div>
     
   );

@@ -285,24 +285,24 @@ const McqTest = () => {
       <div className="w-full max-w-4xl">
         {!isTestStarted ? (
           <>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Enter Test Code:</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4 ml-40 mt-24 font-Orbitron  ">Enter Test Code:</h1>
             <input
               type="text"
               placeholder="Enter Test Code"
               value={testCode}
               onChange={handleTestCodeChange}
-              className="w-full max-w-xs p-2 border rounded mb-4"
+              className="w-full max-w-xs p-2 border rounded mb-4 ml-40 font-Lex"
             />
             <button
               onClick={fetchTest}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-blue-500 text-white px-4 py-2 rounded ml-4 font-Orbitron "
             >
               Submit Code
             </button>
             
           <div className=" font-Cabin bg-slate-200 hover:shadow-xl  m-8 p-4 rounded-lg text-xl">
-            <h1 className=' text-2xl'>Rules:</h1>
-            <ul className="list-disc list-inside space-y-2">
+            <h1 className=' text-3xl mb-4 font-Orbitron' >Rules:</h1>
+            <ul className="list-disc list-inside space-y-2 font-Lex">
             <li>Upon the end of time, the exam will be automatically submitted.
             </li>
             <li>Students should not switch tabs during examinations.

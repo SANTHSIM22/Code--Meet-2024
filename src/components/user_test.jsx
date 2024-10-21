@@ -18,7 +18,7 @@ const McqTest = () => {
   const [remainingWarnings, setRemainingWarnings] = useState(4);
   const countdownIntervalRef = useRef(null);
   const isCountdownActiveRef = useRef(false);
-  const [timer, setTimer] = useState(23 * 60); // 23 minutes timer in seconds
+  const [timer, setTimer] = useState(90 * 60); // 23 minutes timer in seconds
   const timerRef = useRef(null); // Ref for interval function
   const [isFullscreen, setIsFullscreen] = useState(false);
   useEffect(() => {

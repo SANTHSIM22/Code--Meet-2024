@@ -65,9 +65,7 @@ const Login_admin = () => {
                   required
               />
               <div className="flex justify-end mt-2 text-xs text-gray-400">
-                <a href="#" className="hover:underline">
-                  Forgot Password?
-                </a>
+
               </div>
             </div>
             <button

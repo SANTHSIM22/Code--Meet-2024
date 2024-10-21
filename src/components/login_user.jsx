@@ -66,9 +66,7 @@ const Login_user = () => {
               className="w-full rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-gray-200 focus:border-indigo-400 focus:outline-none"
             />
             <div className="flex justify-end mt-2 text-xs text-gray-400">
-              <a href="#" className="hover:underline">
-                Forgot Password?
-              </a>
+
             </div>
           </div>
           <button

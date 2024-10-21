@@ -53,15 +53,15 @@ const Admin = () => {
           <div className="flex flex-col justify-center items-center ">
             <img
               className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
-              src="https://cdn.britannica.com/93/215393-050-E428CADE/Canadian-actor-musician-Ryan-Gosling-2016.jpg"
+              src="https://www.irvineparkrailroad.com/wp-content/uploads/2016/06/150x150-image-placeholder.jpg"
               alt="Profile"
             />
-            <h2 className="text-xl font-bold text-gray-800 ">{username}</h2>
-            <p className="text-sm text-gray-500">Admin</p>
+            <h2 className="text-2xl font-bold text-gray-800 font-Lex  ">{username}</h2>
+            <p className="text-sm text-gray-500 font-Lex">Admin</p>
           </div>
           <nav className="mt-8 space-y-4 w-full">
             
-            <button className="w-full px-4 py-3 bg-red-100 text-red-600 font-medium rounded-lg hover:bg-red-200 transition duration-300">
+            <button className="w-full px-4 py-3 bg-red-100 font-Orbitron text-red-600 font-medium rounded-lg hover:bg-red-200 transition duration-300">
               Log Out
             </button>
           </nav>
@@ -76,7 +76,7 @@ const Admin = () => {
             Click below to create your exam.
           </p>
           <button
-            className="px-10 py-4 bg-blue-600 text-white font-semibold text-lg rounded-full shadow-md hover:bg-blue-700 transition duration-300"
+            className="px-10 py-4 bg-blue-600 text-white font-Orbitron font-semibold text-lg rounded-full shadow-md hover:bg-blue-700 transition duration-300"
             onClick={openModal}
           >
             Create test
@@ -89,23 +89,23 @@ const Admin = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
-            <h2 className="text-xl font-bold mb-4">Create Test</h2>
+            <h2 className="text-xl font-bold mb-4 font-Orbitron">Create Test</h2>
             <input
               type="text"
-              className="w-full p-2 border border-gray-300 rounded-md mb-4"
+              className="w-full p-2 border border-gray-300 rounded-md mb-4 font-Lex"
               placeholder="Enter test code"
               value={testCode}
               onChange={handleTestCodeChange}
             />
             <div className="flex justify-end space-x-4">
               <button
-                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
+                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 font-Orbitron"
                 onClick={closeModal}
               >
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-Orbitron"
                 onClick={startTest}
               >
                 Start Test

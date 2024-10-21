@@ -1,5 +1,5 @@
 import { React, useEffect } from 'react';
-import Navbar from './navbar';
+import NavbarU from './navUser';
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from '../assets/logoexam.jpg'
 import Ut2 from "./underline2"
@@ -37,15 +37,15 @@ const User = () => {
           <div className="flex flex-col justify-center items-center mt-8 ">
             <img
               className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
-              src="https://cdn.britannica.com/93/215393-050-E428CADE/Canadian-actor-musician-Ryan-Gosling-2016.jpg"
+              src="https://www.irvineparkrailroad.com/wp-content/uploads/2016/06/150x150-image-placeholder.jpg"
               alt="Profile"
             />
-            <h2 className="text-xl font-bold text-gray-800">{username}</h2>
+            <h2 className="text-3xl font-Lex font-bold text-gray-800">{username}</h2>
             <p className="text-sm text-gray-500">Student</p>
           </div>
           <nav className="mt-8 space-y-4 w-full">
             
-            <button className="w-full px-4 py-3 bg-red-50 text-red-600 font-medium rounded-lg hover:bg-red-100 transition duration-300">
+            <button className="w-full px-4 py-3 bg-red-50 text-red-600 font-medium rounded-lg font-Orbitron hover:bg-red-100 transition duration-300">
               Log Out
             </button>
           </nav>
@@ -60,13 +60,13 @@ const User = () => {
             Click on the button below to start the exam. Please ensure you have a stable connection and adhere to the exam guidelines.
           </p>
           <button
-            className="px-10 py-4 bg-blue-600 text-white font-semibold text-lg rounded-full shadow-md hover:bg-blue-700 transition duration-300"
+            className="px-10 py-4 bg-blue-600 font-Orbitron text-white font-semibold text-lg rounded-full shadow-md hover:bg-blue-700 transition duration-300"
             onClick={startTest}
           >
             Start Exam
           </button>
         </main>
-        <Navbar />
+        <NavbarU />
       </div>
     </>
   );

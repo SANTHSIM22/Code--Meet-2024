@@ -143,7 +143,7 @@ const TestPage = () => {
 
         {/* Question form section on the right */}
         <div className="w-3/4 ml-4 bg-white p-4 rounded shadow-md">
-          <h2 className="text-xl font-semibold mb-2 font-Orbitron">Question {currentQuestionIndex + 1}</h2>
+          <h2 className="text-xl font-semibold mb-2 font-Orbitron">Question {currentQuestionIndex + 1} :</h2>
           <input
             type="text"
             value={currentQuestion}
@@ -151,6 +151,9 @@ const TestPage = () => {
             placeholder="Enter your question"
             className="w-full mb-4 p-2 border rounded text-lex"
           />
+          <div>
+            <h1 className='text-xl font-semibold mb-2 font-Orbitron'>Options :</h1>
+          </div>
           {options.map((option, index) => (
             <input
               key={index}

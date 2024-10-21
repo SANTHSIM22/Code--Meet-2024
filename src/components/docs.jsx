@@ -15,11 +15,16 @@ const Docs = () => {
           <h1 className=" font-medium text-end text-2xl font-Zen  ">eProctor</h1>
     </div>
     <div className="flex justify-end items-center">
-    <button class="relative bg-transparent text-black w-24 h-12 border-2 border-blue-500 rounded-[11px] m-2 transition-all duration-600 ease-in-out hover:bg-blue-600 cursor-pointer"><a href="#">
-  Login
+    <button class="relative bg-transparent text-black w-24 h-12 border-2 border-blue-500 rounded-[11px] m-2 transition-all duration-600 ease-in-out hover:bg-blue-600 hover:text-white  cursor-pointer"><a href="/login_user">
+  Login User
   </a>
 </button>
-<button class="relative bg-transparent text-black w-24 h-12 border-2 border-blue-500 m-2 rounded-[11px]  transition-all duration-600 ease-in-out hover:bg-blue-600 cursor-pointer"><a href="#">
+<button class="relative bg-transparent text-black w-28 h-12 border-2 border-blue-500 m-2 rounded-[11px]  transition-all duration-600 ease-in-out hover:bg-blue-600 hover:text-white cursor-pointer"><a href="/login_admin">
+  Login Admin
+  </a>
+  
+</button>
+<button class="relative bg-transparent text-black w-24 h-12 border-2  border-blue-500 m-2 rounded-[11px]  transition-all duration-600 ease-in-out hover:bg-blue-600 hover:text-white cursor-pointer"><a href="/register">
   Sign-up
   </a>
   

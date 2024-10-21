@@ -14,7 +14,7 @@ const User = () => {
     console.log('Test Started');
     
     // Redirect to the test page (replace '/user_test' with the correct route)
-    navigate('/user_test');
+    navigate('/user_test', { state: { username } });
   };
   const location = useLocation();
   const username = location.state?.username;

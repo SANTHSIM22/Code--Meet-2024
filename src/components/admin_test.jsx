@@ -57,7 +57,10 @@ const TestPage = () => {
 
   const handleSubmit = async () => {
     updateQuestion();  // Ensure the current question is updated in the array
-
+    console.log(updateQuestion)
+    if (currentQuestionIndex === questions.length) {
+      setQuestions([...questions, { question: currentQuestion, options }]);
+    }
     const questionData = {
         testCode: testCode,  // Replace with your actual test code logic
         timer: 60,  // Replace with your actual timer value or state

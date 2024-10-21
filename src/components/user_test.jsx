@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import FaceOrientationChecker from './video';
 
@@ -41,7 +41,16 @@ const McqTest = () => {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
+  
+  const location = useLocation();
+  const username = location.state?.username;
+  useEffect(() => {
+    if (!username) {
+      navigate("/login_user"); // Redirect to login page
+    }
+  }, [username, navigate]);
 
+  
   useEffect(() => {
 
     
@@ -133,7 +142,6 @@ const McqTest = () => {
       const response = await axios.get(`http://localhost:5000/get-test-data/${testCode}`);  // Fetch data from Flask backend
       const data = response.data;
 
-      console.log(data)
       if (testCode == data.test_code) {
         setQuestions(data.questions);
         setIsTestStarted(true);
@@ -227,29 +235,83 @@ const McqTest = () => {
   };
 
   const handleNextQuestion = () => {
+    // Store the answer using the question text
+    const currentQuestion = questions[currentQuestionIndex]?.question;
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [currentQuestionIndex]: selectedOption,
+      [currentQuestion]: questions[currentQuestionIndex]?.options[selectedOption],
     }));
+    
     setSelectedOption(null);
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
   const handlePrevQuestion = () => {
     if (currentQuestionIndex > 0) {
-      const previousAnswer = answers[currentQuestionIndex - 1];
-      setSelectedOption(previousAnswer || null);
+      const previousQuestion = questions[currentQuestionIndex - 1]?.question;
+      const previousAnswer = answers[previousQuestion];
+      setSelectedOption(
+        previousAnswer
+          ? questions[currentQuestionIndex - 1]?.options.indexOf(previousAnswer)
+          : null
+      );
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
 
-  const handleSubmitTest = () => {
-    clearInterval(countdownIntervalRef.current);
-    console.log('Submitted Answers:', answers);
-    alert('Test submitted successfully!');
-    exitFullscreen();
-    navigate('/user');
+  const [sessionLogin, setSessionLogin] = useState('');
+    useEffect(() => {
+      setSessionLogin(new Date().toISOString());
+    }, []);
+  const [message, setMessage] = useState('');
+
+  // Function to handle form submission
+
+  const handleSubmitTest = async (e) => {
+    e.preventDefault();
+    let updatedAnswers = { ...answers };
+
+    // Check if there is a selected option for the current question and update the answers
+    if (selectedOption !== null) {
+      const currentQuestion = questions[currentQuestionIndex]?.question;
+      updatedAnswers[currentQuestion] = questions[currentQuestionIndex]?.options[selectedOption];
+    }
+        try {
+            const response = await fetch('http://localhost:5000/submit-test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    test_id: testCode,
+                    answers: updatedAnswers,
+                    session_login: sessionLogin,
+                }),
+            });
+
+            if (response.ok) {
+                setMessage('Test submitted successfully.');
+            } else {
+                const errorData = await response.json();
+                setMessage(`Error: ${errorData.message}`);
+            }
+        } catch (error) {
+            setMessage('Failed to submit the test.');
+            console.error('Error submitting test:', error);
+        }
+      
+    console.log(updatedAnswers);
+    // Add a slight delay to ensure the state is updated before submission
+    setTimeout(() => {
+      console.log('Submitted Answers:', updatedAnswers);
+      
+      // Exit fullscreen and navigate away from the test page
+      exitFullscreen();
+      navigate('/user');
+    }, 0); // Delay can be 0 since setState is asynchronous
   };
+
 
   const exitFullscreen = () => {
     if (document.exitFullscreen) {
@@ -280,6 +342,20 @@ const McqTest = () => {
     
   };
 
+  const [ip, setIp] = useState('');
+  useEffect(() => {
+    const fetchIp = async () => {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        setIp(data.ip);
+      } catch (error) {
+        console.error('Error fetching IP address:', error);
+      }
+    };
+
+    fetchIp();
+  }, []);
   return (
     <div className="flex user-select-none flex-col items-center justify-center  p-4">
       <div className="w-full max-w-4xl">

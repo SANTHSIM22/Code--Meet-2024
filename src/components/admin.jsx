@@ -46,7 +46,7 @@ const Admin = () => {
           </img>
           <h1 className="font-Zen font-medium text-end mt-6 text-2xl  ">eProctor</h1>
           
-        <div className='flex-1 flex flex-col items-center justify-center'>
+        <div className='flex-1 flex flex-col items-center justify-center max-w-72'>
         {/* Sidebar: Profile Section */}
         <aside className="w-[500px] h-full absolute left-0 b p-6 shadow-2xl flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center items-center ">

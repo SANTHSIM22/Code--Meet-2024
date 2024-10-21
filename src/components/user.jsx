@@ -3,6 +3,7 @@ import Navbar from './navbar';
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from '../assets/logoexam.jpg'
 import Ut2 from "./underline2"
+import Marquee from "./textloop"
 
 const User = () => {
   // Initialize the navigation hook
@@ -24,14 +25,15 @@ const User = () => {
   }, [username, navigate]);
   return (
     <>
-      <div className="min-h-screen flex flex-col md:flex-row ">
+      <div className="min-h-screen flex flex-col md:flex-row bg-slate-100">
         {/* Sidebar: Profile Section */}
-        <aside className="w-full md:w-64 bg-transparent p-6 shadow-lg">
-            <div className="flex justify-center items-center">
             <img className=" w-16 h-16 rounded-full m-2" alt="Logo" src={logo}>
           </img>
-          <h1 className="font-Zen font-medium text-end text-2xl  ">eProctor</h1>
-            </div>
+          <h1 className="font-Zen font-medium text-end text-2xl mt-6  ">eProctor</h1>
+          <div className='flex-1 flex flex-col items-center justify-center max-w-72'>
+        <aside className="w-[500px] h-full absolute left-0 b p-6 shadow-2xl flex flex-col justify-center items-center">
+            
+            
           <div className="flex flex-col justify-center items-center mt-8 ">
             <img
               className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-blue-500"
@@ -42,17 +44,17 @@ const User = () => {
             <p className="text-sm text-gray-500">Student</p>
           </div>
           <nav className="mt-8 space-y-4 w-full">
-            <button className="w-full px-4 py-3 bg-blue-50 text-blue-700 font-medium rounded-lg hover:bg-blue-100 transition duration-300">
-              View Profile
-            </button>
+            
             <button className="w-full px-4 py-3 bg-red-50 text-red-600 font-medium rounded-lg hover:bg-red-100 transition duration-300">
               Log Out
             </button>
           </nav>
         </aside>
+          </div>
 
         {/* Main Section: Start Test Button */}
-        <main className="flex-1 flex flex-col items-center justify-center p-8 space-y-6">
+        <main className="flex-1 flex flex-col items-center justify-center p-2 space-y-6">
+          <Marquee/>
           <Ut2/>
           <p className="text-gray-600 text-lg text-center max-w-md font-Mont">
             Click on the button below to start the exam. Please ensure you have a stable connection and adhere to the exam guidelines.

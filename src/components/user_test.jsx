@@ -18,9 +18,33 @@ const McqTest = () => {
   const [remainingWarnings, setRemainingWarnings] = useState(4);
   const countdownIntervalRef = useRef(null);
   const isCountdownActiveRef = useRef(false);
+  const [timer, setTimer] = useState(23 * 60); // 23 minutes timer in seconds
+  const timerRef = useRef(null); // Ref for interval function
   const [isFullscreen, setIsFullscreen] = useState(false);
+  useEffect(() => {
+    if (isTestStarted && timer > 0) {
+      timerRef.current = setInterval(() => {
+        setTimer(prevTimer => prevTimer - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      handleSubmitTest(); // Submit the test when time is up
+    }
+    
+    // Cleanup interval when component unmounts
+    return () => clearInterval(timerRef.current);
+  }, [isTestStarted, timer]);
+
+  // Convert seconds to minutes and seconds format
+  const formatTime = () => {
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
 
   useEffect(() => {
+
+    
     const handleVisibilityChange = () => {
       if (document.hidden) {
         //handleSubmitTest(); // Automatically submit the test if the document is hidden
@@ -257,8 +281,8 @@ const McqTest = () => {
   };
 
   return (
-    <div className="flex  user-select-none h-full flex-col items-center justify-center  p-4">
-      <div className="w-full   max-w-4xl">
+    <div className="flex user-select-none flex-col items-center justify-center  p-4">
+      <div className="w-full max-w-4xl">
         {!isTestStarted ? (
           <>
             <h1 className="text-3xl font-bold text-gray-900 mb-4">Enter Test Code:</h1>
@@ -275,6 +299,25 @@ const McqTest = () => {
             >
               Submit Code
             </button>
+            
+          <div className=" font-Cabin bg-slate-200 hover:shadow-xl  m-8 p-4 rounded-lg text-xl">
+            <h1 className=' text-2xl'>Rules:</h1>
+            <ul className="list-disc list-inside space-y-2">
+            <li>Upon the end of time, the exam will be automatically submitted.
+            </li>
+            <li>Students should not switch tabs during examinations.
+            </li>
+            <li>
+            Students should not exit fullscreen mode during examination.
+            </li>
+            <li>
+            Students must make sure that they are facing the camera.
+            </li>
+            <li>
+            Repeated offenses will lead to exam termination.
+            </li>
+            </ul>
+          </div>
           </>
         ) : (
 
@@ -347,11 +390,11 @@ const McqTest = () => {
               <div className="bg-black absolute top-0 right-7 mt-16 w-[25%] h-[45%] rounded-md shadow-md">
                   <FaceOrientationChecker />
               </div>
-              <div className="absolute flex flex-row justify-start items-center bottom-8 py-10 px-24  bg-gray-100 shadow-xl rounded-md ml-4 left-3 w-[70%] m-2  ">
-                <p className="text-5xl font-medium font-Orbitron  ">Timer:</p>
-                <h1 className="text-8xl mx-4">23</h1>
-                <div className=" text-3xl font-Orbitron">Minutes</div>
-                </div>
+              <div className="absolute flex flex-row justify-start items-center bottom-8 py-10 px-24 bg-gray-100 shadow-xl rounded-md ml-4 left-3 w-[70%] m-2">
+                <p className="text-5xl font-medium">Timer:</p>
+                <h1 className="text-8xl mx-4">{formatTime()}</h1>
+                <div className="text-3xl">Minutes</div>
+              </div>
             </div>
           </div>
         )}

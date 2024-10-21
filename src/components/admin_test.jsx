@@ -108,20 +108,20 @@ const TestPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">
+      <h1 className="text-3xl font-bold text-gray-900 mb-4 font-Orbitron">
         Test Code: {testCode}
       </h1>
 
       {/* Main container with flex row layout */}
       <div className="flex w-full max-w-6xl">
         {/* Buttons to navigate between questions */}
-        <div className="w-1/4 bg-white p-4 rounded shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Navigate Questions</h2>
+        <div className="w-[55%] bg-white p-4 m-4 rounded-md shadow-md">
+          <h2 className="text-xl font-semibold mb-2 font-Orbitron">Navigate Questions</h2>
           <div className="flex flex-wrap gap-2">
             {questions.map((_, index) => (
               <button
                 key={index}
-                className={`px-3 py-1 border rounded ${
+                className={`px-5 py-3 border rounded ${
                   index === currentQuestionIndex ? 'bg-blue-500 text-white' : 'bg-gray-300'
                 }`}
                 onClick={() => handleQuestionClick(index)}
@@ -131,7 +131,7 @@ const TestPage = () => {
             ))}
             {/* Add button for current question */}
             <button
-              className={`px-3 py-1 border rounded ${
+              className={`px-5 py-3 border rounded  ${
                 currentQuestionIndex === questions.length ? 'bg-blue-500 text-white' : 'bg-gray-300'
               }`}
               onClick={() => handleQuestionClick(questions.length)}
@@ -143,13 +143,13 @@ const TestPage = () => {
 
         {/* Question form section on the right */}
         <div className="w-3/4 ml-4 bg-white p-4 rounded shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Question {currentQuestionIndex + 1}</h2>
+          <h2 className="text-xl font-semibold mb-2 font-Orbitron">Question {currentQuestionIndex + 1}</h2>
           <input
             type="text"
             value={currentQuestion}
             onChange={(e) => setCurrentQuestion(e.target.value)}
             placeholder="Enter your question"
-            className="w-full mb-4 p-2 border rounded"
+            className="w-full mb-4 p-2 border rounded text-lex"
           />
           {options.map((option, index) => (
             <input
@@ -158,13 +158,13 @@ const TestPage = () => {
               value={option}
               onChange={(e) => handleOptionChange(index, e.target.value)}
               placeholder={`Option ${index + 1}`}
-              className="w-full mb-2 p-2 border rounded"
+              className="w-full mb-2 p-2 border rounded text-lex"
             />
           ))}
           <div className="flex justify-between mt-4">
             <button
               onClick={handlePrevQuestion}
-              className={`p-2 bg-gray-300 rounded ${
+              className={`p-2 bg-gray-300 rounded font-Orbitron ${
                 currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               disabled={currentQuestionIndex === 0}
@@ -175,21 +175,21 @@ const TestPage = () => {
               {questions.length > 0 && (
                 <button
                   onClick={() => handleRemoveQuestion(currentQuestionIndex)}
-                  className="bg-red-500 text-white p-2 rounded mr-2"
+                  className="bg-red-500 text-white p-2 rounded mr-2 font-Orbitron"
                 >
                   Remove Question
                 </button>
               )}
               <button
                 onClick={handleAddOrNextQuestion}
-                className="bg-blue-500 text-white p-2 rounded mr-2"
+                className="bg-blue-500 text-white p-2 rounded mr-2 font-Orbitron"
               >
                 {currentQuestionIndex === questions.length ? 'Add Question' : 'Next'}
               </button>
               {questions.length > 0 && (
                 <button
                   onClick={handleSubmit}
-                  className="bg-green-500 text-white p-2 rounded"
+                  className="bg-green-500 text-white p-2 rounded font-Orbitron"
                 >
                   Submit Test
                 </button>
